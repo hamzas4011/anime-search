@@ -12,9 +12,3 @@ This is an **Anime Search App** built with **Next.js (App Router), TypeScript, a
 
 ## 🚀 Project Status
 🔨 **Work in Progress** – Currently developing the **search functionality** and **anime details page**. A **database** will be integrated to store user favorites and search history. More features like a **favorites list** and **filtering by genre** will be added soon.
-
-## 🛠️ How to Run the Project
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/YOUR_GITHUB_USERNAME/anime-search-app.git
-   cd anime-search-app
