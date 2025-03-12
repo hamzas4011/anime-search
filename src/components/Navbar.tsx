@@ -8,8 +8,8 @@ const Navbar = () => {
   return (
     <nav className="bg-gray-900 text-white shadow-lg">
       <div className="container mx-auto flex justify-between items-center p-4">
-        <Link href="/" className="text-3xl font-bold tracking-wide text-white hover:text-gray-300 transition">
-          AnimeSearch
+        <Link href="/" className="text-3xl ml-20 font-bold tracking-wide text-white hover:text-gray-300 transition">
+          AnimeExplorer
         </Link>
 
         <button className="md:hidden text-white text-2xl" onClick={() => setIsOpen(!isOpen)}>
