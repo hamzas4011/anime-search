@@ -25,7 +25,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center text-gray-500 text-sm mt-6">
-          © {new Date().getFullYear()} AnimeWorld. All rights reserved.
+          © {new Date().getFullYear()} AnimeExplorer. All rights reserved.
         </div>
       </div>
     </footer>
