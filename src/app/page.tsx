@@ -13,25 +13,41 @@ interface Anime {
 
 export default function Home() {
   const [trendingAnime, setTrendingAnime] = useState<Anime[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [latestAnime, setLatestAnime] = useState<Anime[]>([]);
+  const [loadingTrending, setLoadingTrending] = useState(true);
+  const [loadingLatest, setLoadingLatest] = useState(true);
+  const [errorTrending, setErrorTrending] = useState("");
+  const [errorLatest, setErrorLatest] = useState("");
 
   useEffect(() => {
     const fetchTrendingAnime = async () => {
       try {
-        const response = await fetch("/api/trending"); // Make sure this matches your API path
+        const response = await fetch("/api/trending");
         if (!response.ok) throw new Error("Failed to fetch trending anime");
-        
         const data = await response.json();
         setTrendingAnime(data);
       } catch (err) {
-        setError("Could not load anime. Please try again.");
+        setErrorTrending("Could not load trending anime.");
       } finally {
-        setLoading(false);
+        setLoadingTrending(false);
+      }
+    };
+
+    const fetchLatestAnime = async () => {
+      try {
+        const response = await fetch("/api/latest");
+        if (!response.ok) throw new Error("Failed to fetch latest anime");
+        const data = await response.json();
+        setLatestAnime(data);
+      } catch (err) {
+        setErrorLatest("Could not load latest anime.");
+      } finally {
+        setLoadingLatest(false);
       }
     };
 
     fetchTrendingAnime();
+    fetchLatestAnime();
   }, []);
 
   return (
@@ -46,14 +62,36 @@ export default function Home() {
         </Link>
       </section>
 
+      {/* Trending Anime Section */}
       <section className="px-4 md:px-12 py-10">
         <h2 className="text-2xl font-semibold mb-4">🔥 Trending Anime</h2>
-
-        {loading && <p className="text-center text-gray-400">Loading anime...</p>}
-        {error && <p className="text-center text-red-500">{error}</p>}
+        {loadingTrending && <p className="text-center text-gray-400">Loading trending anime...</p>}
+        {errorTrending && <p className="text-center text-red-500">{errorTrending}</p>}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {trendingAnime.map((anime) => (
+            <div key={anime.id} className="bg-gray-800 p-3 rounded-lg">
+              <Image src={anime.image} alt={anime.title} width={200} height={280} className="rounded-md" />
+              <h3 className="mt-2 text-base font-medium">{anime.title}</h3>
+              <p className="text-sm text-gray-400 line-clamp-2">{anime.synopsis}</p>
+              <Link href={anime.url} target="_blank">
+                <button className="mt-3 px-4 py-1 bg-blue-500 text-sm rounded-md hover:bg-blue-600">
+                  More Info
+                </button>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Latest Releases Section */}
+      <section className="px-4 md:px-12 py-10">
+        <h2 className="text-2xl font-semibold mb-4">📅 Latest Releases</h2>
+        {loadingLatest && <p className="text-center text-gray-400">Loading latest anime...</p>}
+        {errorLatest && <p className="text-center text-red-500">{errorLatest}</p>}
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {latestAnime.map((anime) => (
             <div key={anime.id} className="bg-gray-800 p-3 rounded-lg">
               <Image src={anime.image} alt={anime.title} width={200} height={280} className="rounded-md" />
               <h3 className="mt-2 text-base font-medium">{anime.title}</h3>
