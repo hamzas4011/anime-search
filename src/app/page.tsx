@@ -39,7 +39,7 @@ export default function Home() {
         if (!response.ok) throw new Error("Failed to fetch latest anime");
         const data = await response.json();
         setLatestAnime(data);
-      } catch (err) {
+      } catch {
         setErrorLatest("Could not load latest anime.");
       } finally {
         setLoadingLatest(false);
