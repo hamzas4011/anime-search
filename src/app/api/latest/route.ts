@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const response = await fetch('https://api.jikan.moe/v4/seasons/now'); // Fetching currently airing anime
+    const response = await fetch('https://api.jikan.moe/v4/seasons/now');
     const data = await response.json();
 
     const latestAnime = data.data.slice(0, 5).map((anime: any) => ({
