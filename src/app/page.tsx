@@ -23,10 +23,12 @@ export default function Home() {
     const fetchTrendingAnime = async () => {
       try {
         const response = await fetch("/api/trending");
-        if (!response.ok) throw new Error("Failed to fetch trending anime");
-        const data = await response.json();
+        if (!response.ok) throw new Error(`Failed to fetch trending anime: ${response.status}`);
+        const data: Anime[] = await response.json();
+        if (!Array.isArray(data)) throw new Error("Invalid data format");
         setTrendingAnime(data);
       } catch (err) {
+        console.error("Trending Anime Fetch Error:", err);
         setErrorTrending("Could not load trending anime.");
       } finally {
         setLoadingTrending(false);
@@ -36,10 +38,12 @@ export default function Home() {
     const fetchLatestAnime = async () => {
       try {
         const response = await fetch("/api/latest");
-        if (!response.ok) throw new Error("Failed to fetch latest anime");
-        const data = await response.json();
+        if (!response.ok) throw new Error(`Failed to fetch latest anime: ${response.status}`);
+        const data: Anime[] = await response.json();
+        if (!Array.isArray(data)) throw new Error("Invalid data format");
         setLatestAnime(data);
-      } catch {
+      } catch (err) {
+        console.error("Latest Anime Fetch Error:", err);
         setErrorLatest("Could not load latest anime.");
       } finally {
         setLoadingLatest(false);
@@ -62,6 +66,7 @@ export default function Home() {
         </Link>
       </section>
 
+      {/* Trending Anime Section */}
       <section className="px-4 md:px-12 py-10">
         <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">🔥 Trending Anime</h2>
         {loadingTrending && <p className="text-center text-gray-400">Loading trending anime...</p>}
@@ -83,6 +88,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Latest Releases Section */}
       <section className="px-4 md:px-12 py-10">
         <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">📅 Latest Releases</h2>
         {loadingLatest && <p className="text-center text-gray-400">Loading latest anime...</p>}
