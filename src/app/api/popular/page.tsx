@@ -5,7 +5,7 @@ const PopularPage = () => {
     { id: 1, title: "Attack on Titan" },
     { id: 2, title: "Demon Slayer" },
     { id: 3, title: "One Piece" },
-    { id: 4, title: "Jujutsu Kaisen" },
+    { id: 4, title: "Jujutsu Kaisen" }
   ];
 
   return (
