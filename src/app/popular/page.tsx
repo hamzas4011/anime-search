@@ -10,9 +10,9 @@ export default function PopularPage() {
   useEffect(() => {
     const fetchPopularAnime = async () => {
       try {
-        const response = await fetch("/api/popular"); 
+        const response = await fetch("/api/popular");
         const data = await response.json();
-        setAnimeList(data);
+        setAnimeList(data.slice(0, 16));
       } catch (err) {
         setError("Failed to load popular anime.");
       } finally {
@@ -34,12 +34,6 @@ export default function PopularPage() {
           <div key={anime.mal_id} className="bg-gray-800 text-white rounded-lg shadow-md p-4">
             <img src={anime.images.jpg.image_url} alt={anime.title} className="w-full h-40 object-cover rounded-md" />
             <h2 className="text-lg font-semibold mt-2 text-center">{anime.title}</h2>
-            <p className="text-sm text-gray-300 text-center">Episodes: {anime.episodes ?? "N/A"}</p>
-            <p className="text-sm text-yellow-400 text-center">Score: {anime.score ?? "N/A"}</p>
-            <p className="text-xs text-gray-400 text-center">Year: {anime.year ?? "Unknown"}</p>
-            <p className="text-xs text-gray-300 text-center mt-2 line-clamp-2">
-              {anime.synopsis ? anime.synopsis.slice(0, 100) + "..." : "No description available."}
-            </p>
           </div>
         ))}
       </div>
