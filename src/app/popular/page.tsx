@@ -10,7 +10,7 @@ export default function PopularPage() {
       try {
         const response = await fetch("/api/popular");
         const data = await response.json();
-        setAnimeList(data.slice(0, 16)); // Show only the first 16 animes
+        setAnimeList(data.slice(0, 16));
       } catch (err) {
         console.error("Failed to load popular anime.");
       }
