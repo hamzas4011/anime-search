@@ -20,15 +20,15 @@ export default function PopularPage() {
   useEffect(() => {
     const fetchAnime = async () => {
       try {
-        const response = await fetch("/api/popular");
+        const response = await fetch("/api/popular", { cache: "no-store" });
 
         if (!response.ok) {
           throw new Error(`API failed with status: ${response.status}`);
         }
 
-        const data: { data: Anime[] } = await response.json(); // ✅ Ensuring correct TypeScript typing
+        const data: { data: Anime[] } = await response.json();
 
-        if (!Array.isArray(data.data)) {
+        if (!data || !Array.isArray(data.data)) {
           throw new Error("Invalid API response format");
         }
 
