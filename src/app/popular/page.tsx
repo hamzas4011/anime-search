@@ -2,10 +2,20 @@
 
 import { useEffect, useState } from "react";
 
+interface Anime {
+  mal_id: number;
+  title: string;
+  images: {
+    jpg: {
+      image_url: string;
+    };
+  };
+}
+
 export default function PopularPage() {
-  const [animeList, setAnimeList] = useState([]);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [animeList, setAnimeList] = useState<Anime[]>([]);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchAnime = async () => {
@@ -16,13 +26,13 @@ export default function PopularPage() {
           throw new Error(`API failed with status: ${response.status}`);
         }
 
-        const data = await response.json();
+        const data: { data: Anime[] } = await response.json(); // ✅ Ensuring correct TypeScript typing
 
-        if (!data.data || !Array.isArray(data.data)) {
+        if (!Array.isArray(data.data)) {
           throw new Error("Invalid API response format");
         }
 
-        setAnimeList(data.slice(0, 16));
+        setAnimeList(data.data.slice(0, 16));
       } catch (err) {
         setError("Failed to load anime.");
         console.error("Fetch error:", err);
@@ -42,9 +52,13 @@ export default function PopularPage() {
       <h1 className="text-3xl font-bold text-center mb-6">Popular Anime</h1>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {animeList.length > 0 ? (
-          animeList.map((anime: any) => (
+          animeList.map((anime) => (
             <div key={anime.mal_id} className="bg-gray-800 text-white rounded-lg p-4">
-              <img src={anime.images?.jpg?.image_url} alt={anime.title} className="w-full h-40 object-cover rounded-md" />
+              <img
+                src={anime.images?.jpg?.image_url}
+                alt={anime.title}
+                className="w-full h-40 object-cover rounded-md"
+              />
               <h2 className="text-lg font-semibold mt-2 text-center">{anime.title}</h2>
             </div>
           ))
