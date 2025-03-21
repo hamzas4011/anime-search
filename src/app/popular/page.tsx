@@ -17,11 +17,12 @@ export default function PopularPage() {
         }
 
         const data = await response.json();
-        if (!Array.isArray(data)) {
+
+        if (!data.data || !Array.isArray(data.data)) {
           throw new Error("Invalid API response format");
         }
 
-        setAnimeList(data.data.slice(0, 16));
+        setAnimeList(data.slice(0, 16));
       } catch (err) {
         setError("Failed to load anime.");
         console.error("Fetch error:", err);
