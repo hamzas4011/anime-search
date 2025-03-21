@@ -21,7 +21,7 @@ export default function PopularPage() {
           throw new Error("Invalid API response format");
         }
 
-        setAnimeList(data.slice(0, 16));
+        setAnimeList(data.data.slice(0, 16));
       } catch (err) {
         setError("Failed to load anime.");
         console.error("Fetch error:", err);
