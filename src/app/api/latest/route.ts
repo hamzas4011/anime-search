@@ -8,7 +8,7 @@ export async function GET(): Promise<Response> {
 
     const data = await response.json();
 
-    return Response.json({ data: data.data.slice(0, 16) });
+    return Response.json({ data: data.data.slice(0, 16) }); // ✅ Always return `{ data: [...] }`
   } catch (error) {
     console.error("API Fetch Error:", error);
     return Response.json({ error: "Failed to fetch latest anime" }, { status: 500 });
