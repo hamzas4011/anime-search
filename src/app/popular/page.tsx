@@ -18,31 +18,35 @@ export default function HomePage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchLatestAnime = async () => {
-      try {
-        const response = await fetch("/api/latest", { cache: "no-store" });
+  const fetchLatestAnime = async () => {
+    try {
+      const response = await fetch("/api/latest", { cache: "no-store" });
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch latest anime: ${response.status}`);
-        }
-
-        const data: { data: Anime[] } = await response.json();
-
-        if (!data || !Array.isArray(data.data)) {
-          throw new Error("Invalid API response format");
-        }
-
-        setLatestAnime(data.data.slice(0, 16));
-      } catch (err) {
-        setError("Failed to load latest anime.");
-        console.error("Fetch error:", err);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch latest anime: ${response.status}`);
       }
-    };
 
-    fetchLatestAnime();
-  }, []);
+      const responseData = await response.json();
+      console.log("Latest API Response:", responseData);
+
+      // ✅ Fix: Access `responseData.data` instead of `responseData`
+      const animeData: Anime[] = responseData.data || [];
+
+      if (!Array.isArray(animeData)) {
+        throw new Error("Invalid API response format");
+      }
+
+      setLatestAnime(animeData.slice(0, 16));
+    } catch (err) {
+      setErrorLatest("Could not load latest anime.");
+      console.error("Latest Anime Fetch Error:", err);
+    } finally {
+      setLoadingLatest(false);
+    }
+  };
+
+  fetchLatestAnime();
+}, []);
 
   if (loading) return <p className="text-center text-lg">Loading latest anime...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
