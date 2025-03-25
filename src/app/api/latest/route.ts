@@ -8,18 +8,9 @@ export async function GET(): Promise<Response> {
 
     const data = await response.json();
 
-    // ✅ Map to your frontend's expected format
-    const latest = data.data.slice(0, 16).map((anime: any) => ({
-      id: anime.mal_id,
-      title: anime.title,
-      image: anime.images?.jpg?.image_url || "",
-      synopsis: anime.synopsis || "",
-      url: anime.url || "#"
-    }));
-
-    return Response.json({ data: latest });
+    return Response.json({ data: data.data.slice(0, 16) });
   } catch (error) {
-    console.error("Latest Anime API Error:", error);
+    console.error("API Fetch Error:", error);
     return Response.json({ error: "Failed to fetch latest anime" }, { status: 500 });
   }
 }
