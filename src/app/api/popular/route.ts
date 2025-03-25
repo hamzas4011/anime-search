@@ -8,9 +8,19 @@ export async function GET(): Promise<Response> {
 
     const data = await response.json();
 
-    return Response.json({ data: data.data.slice(0, 16) });
+    const popular = data.data.slice(0, 16).map((anime: any) => ({
+      mal_id: anime.mal_id,
+      title: anime.title,
+      images: {
+        jpg: {
+          image_url: anime.images?.jpg?.image_url || ""
+        }
+      }
+    }));
+
+    return Response.json({ data: popular });
   } catch (error) {
-    console.error("API Fetch Error:", error);
-    return Response.json({ error: "Failed to fetch anime" }, { status: 500 });
+    console.error("Popular API Fetch Error:", error);
+    return Response.json({ error: "Failed to fetch popular anime" }, { status: 500 });
   }
 }
