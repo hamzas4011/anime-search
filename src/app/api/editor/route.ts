@@ -16,7 +16,6 @@ export async function GET() {
       synopsis: "Humanity fights for survival against gigantic humanoid creatures known as Titans.",
       url: "https://myanimelist.net/anime/16498/Shingeki_no_Kyojin",
     },
-    // Add more if needed
   ];
 
   return NextResponse.json(editorsPicks);
