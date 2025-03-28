@@ -42,36 +42,36 @@ export default function PopularPage() {
   }, []);
 
   if (loading)
-    return <p className="text-center text-lg mt-10">Loading popular anime...</p>;
+    return <p className="text-center text-lg mt-10 text-white">Loading popular anime...</p>;
 
   if (error)
     return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-4xl font-bold text-center text-white mb-8">
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <h1 className="text-4xl font-bold text-center mb-10">
         🏆 Most Popular Anime of All Time
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {popularAnime.map((anime) => (
           <motion.div
             key={anime.mal_id}
             onClick={() => setSelectedAnime(anime)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className="bg-gray-900 cursor-pointer text-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-lg hover:shadow-blue-500/30 transition duration-300"
           >
             <img
               src={anime.images.jpg.image_url}
               alt={anime.title}
-              className="h-52 w-full object-cover"
+              className="w-full h-56 object-cover"
             />
-            <div className="p-4">
-              <h2 className="text-lg font-semibold mb-1 truncate">
+            <div className="p-4 space-y-2">
+              <h2 className="text-lg font-semibold truncate text-white">
                 {anime.title}
               </h2>
-              <div className="flex justify-between text-sm text-gray-300">
+              <div className="flex justify-between text-sm text-gray-400">
                 <span>{anime.type ?? "Unknown"}</span>
                 <span>⭐ {anime.score ?? "N/A"}</span>
               </div>
