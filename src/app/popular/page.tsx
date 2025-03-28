@@ -17,32 +17,32 @@ interface Anime {
   };
 }
 
-export default function HomePage() {
-  const [latestAnime, setLatestAnime] = useState<Anime[]>([]);
+export default function PopularPage() {
+  const [popularAnime, setPopularAnime] = useState<Anime[]>([]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
 
   useEffect(() => {
-    const fetchLatestAnime = async () => {
+    const fetchPopularAnime = async () => {
       try {
-        const response = await fetch("/api/latest", { cache: "no-store" });
+        const response = await fetch("/api/popular", { cache: "no-store" });
         if (!response.ok) throw new Error("Failed to fetch");
         const data: { data: Anime[] } = await response.json();
-        setLatestAnime(data.data.slice(0, 16));
+        setPopularAnime(data.data.slice(0, 16));
       } catch (err) {
         console.error("Error:", err);
-        setError("Could not load latest anime.");
+        setError("Could not load popular anime.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchLatestAnime();
+    fetchPopularAnime();
   }, []);
 
   if (loading)
-    return <p className="text-center text-lg mt-10">Loading latest anime...</p>;
+    return <p className="text-center text-lg mt-10">Loading popular anime...</p>;
 
   if (error)
     return <p className="text-center text-red-500 mt-10">{error}</p>;
@@ -54,7 +54,7 @@ export default function HomePage() {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {latestAnime.map((anime) => (
+        {popularAnime.map((anime) => (
           <motion.div
             key={anime.mal_id}
             onClick={() => setSelectedAnime(anime)}
