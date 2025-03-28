@@ -68,38 +68,57 @@ export default function Home() {
 
       <section className="px-4 md:px-12 py-10">
         <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">🎭 Top Anime by Genre</h2>
-        <div className="space-y-6 text-gray-300 text-base">
-          <div>
-            <h3 className="text-lg font-semibold text-white">💥 Action</h3>
-            <ul className="list-disc list-inside pl-2">
-              <li>Attack on Titan</li>
-              <li>Jujutsu Kaisen</li>
-              <li>Vinland Saga</li>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="bg-gray-800 border-l-4 border-blue-500 p-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300">
+            <h3 className="text-xl font-bold text-blue-400 mb-1">💥 Action</h3>
+            <p className="text-sm text-gray-400 mb-3">High-energy battles and epic fight scenes.</p>
+            <ul className="space-y-1 text-gray-300 text-sm">
+              <li className="hover:text-white hover:translate-x-1 transition">• Attack on Titan</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Jujutsu Kaisen</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Vinland Saga</li>
             </ul>
+            <Link href="/genres">
+              <p className="mt-3 text-sm text-blue-400 hover:underline">Explore Action Anime →</p>
+            </Link>
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-white">💖 Romance</h3>
-            <ul className="list-disc list-inside pl-2">
-              <li>Your Lie in April</li>
-              <li>Toradora</li>
-              <li>Clannad: After Story</li>
+
+          <div className="bg-gray-800 border-l-4 border-pink-500 p-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300">
+            <h3 className="text-xl font-bold text-pink-400 mb-1">💖 Romance</h3>
+            <p className="text-sm text-gray-400 mb-3">Heartfelt stories of love, connection, and emotion.</p>
+            <ul className="space-y-1 text-gray-300 text-sm">
+              <li className="hover:text-white hover:translate-x-1 transition">• Your Lie in April</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Toradora</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Clannad: After Story</li>
             </ul>
+            <Link href="/genres">
+              <p className="mt-3 text-sm text-pink-400 hover:underline">Explore Romance Anime →</p>
+            </Link>
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-white">😂 Comedy</h3>
-            <ul className="list-disc list-inside pl-2">
-              <li>Gintama</li>
-              <li>Konosuba</li>
-              <li>Great Teacher Onizuka</li>
+
+          <div className="bg-gray-800 border-l-4 border-yellow-400 p-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300">
+            <h3 className="text-xl font-bold text-yellow-300 mb-1">😂 Comedy</h3>
+            <p className="text-sm text-gray-400 mb-3">Hilarious characters and over-the-top fun moments.</p>
+            <ul className="space-y-1 text-gray-300 text-sm">
+              <li className="hover:text-white hover:translate-x-1 transition">• Gintama</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Konosuba</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Great Teacher Onizuka</li>
             </ul>
+            <Link href="/genres">
+              <p className="mt-3 text-sm text-yellow-300 hover:underline">Explore Comedy Anime →</p>
+            </Link>
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-white">🧠 Psychological</h3>
-            <ul className="list-disc list-inside pl-2">
-              <li>Death Note</li>
-              <li>Monster</li>
-              <li>Paranoia Agent</li>
+
+          <div className="bg-gray-800 border-l-4 border-purple-500 p-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300">
+            <h3 className="text-xl font-bold text-purple-400 mb-1">🧠 Psychological</h3>
+            <p className="text-sm text-gray-400 mb-3">Mind-bending plots and intense character studies.</p>
+            <ul className="space-y-1 text-gray-300 text-sm">
+              <li className="hover:text-white hover:translate-x-1 transition">• Death Note</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Monster</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Paranoia Agent</li>
             </ul>
+            <Link href="/genres">
+              <p className="mt-3 text-sm text-purple-400 hover:underline">Explore Psychological Anime →</p>
+            </Link>
           </div>
         </div>
       </section>
