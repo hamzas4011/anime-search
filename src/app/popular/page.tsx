@@ -49,7 +49,7 @@ export default function PopularPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white p-6">
-      <h1 className="text-2xl sm:text-3xl font-semibold text-center text-white-300 mb-10">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center text-blue-300 mb-10">
         🏆 Most Popular Anime of All Time
       </h1>
 
@@ -81,7 +81,12 @@ export default function PopularPage() {
       </div>
 
       {selectedAnime && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="anime-title"
+        >
           <motion.div
             className="bg-white text-black rounded-lg max-w-md w-full p-6 relative shadow-2xl"
             initial={{ opacity: 0, y: 50 }}
@@ -89,32 +94,55 @@ export default function PopularPage() {
           >
             <button
               onClick={() => setSelectedAnime(null)}
-              className="absolute top-3 right-4 text-xl text-gray-500 hover:text-black"
-              aria-label="Close"
+              className="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+              aria-label="Close modal"
             >
-              ✕
+              ×
             </button>
+
             <img
               src={selectedAnime.images.jpg.image_url}
-              alt={selectedAnime.title}
+              alt={`Poster of ${selectedAnime.title}`}
               className="w-full h-56 object-cover rounded-md mb-4"
             />
-            <h2 className="text-2xl font-bold mb-2">{selectedAnime.title}</h2>
+
+            <h2 id="anime-title" className="text-2xl font-bold mb-2">
+              {selectedAnime.title}
+            </h2>
+
             <p className="text-gray-700 text-sm mb-3 leading-relaxed">
               {selectedAnime.synopsis
-                ? selectedAnime.synopsis.slice(0, 300) + "..."
+                ? `${selectedAnime.synopsis.slice(0, 200)}...`
                 : "No description available."}
+              {selectedAnime.synopsis && (
+                <a
+                  href={`https://myanimelist.net/anime/${selectedAnime.mal_id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-1 text-blue-600 hover:underline text-sm"
+                >
+                  Read more
+                </a>
+              )}
             </p>
+
             <ul className="text-sm text-gray-800 space-y-1 mb-4">
-              <li><strong>Type:</strong> {selectedAnime.type ?? "Unknown"}</li>
-              <li><strong>Episodes:</strong> {selectedAnime.episodes ?? "?"}</li>
-              <li><strong>Score:</strong> {selectedAnime.score ?? "N/A"}</li>
+              <li>
+                <strong>Type:</strong> {selectedAnime.type ?? "Unknown"}
+              </li>
+              <li>
+                <strong>Episodes:</strong> {selectedAnime.episodes ?? "?"}
+              </li>
+              <li>
+                <strong>Score:</strong> {selectedAnime.score ?? "N/A"}
+              </li>
             </ul>
+
             <a
               href={`https://myanimelist.net/anime/${selectedAnime.mal_id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded hover:bg-blue-700 transition"
+              className="block w-full text-center bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
               View on MyAnimeList
             </a>
