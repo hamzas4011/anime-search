@@ -13,11 +13,8 @@ interface Anime {
 
 export default function Home() {
   const [trendingAnime, setTrendingAnime] = useState<Anime[]>([]);
-  const [editorsPicks, setEditorsPicks] = useState<Anime[]>([]);
   const [loadingTrending, setLoadingTrending] = useState(true);
-  const [loadingEditor, setLoadingEditor] = useState(true);
   const [errorTrending, setErrorTrending] = useState("");
-  const [errorEditor, setErrorEditor] = useState("");
 
   useEffect(() => {
     const fetchTrendingAnime = async () => {
@@ -33,21 +30,7 @@ export default function Home() {
       }
     };
 
-    const fetchEditorsPicks = async () => {
-      try {
-        const response = await fetch("/api/editor");
-        if (!response.ok) throw new Error("Failed to fetch editor’s picks.");
-        const data: Anime[] = await response.json();
-        setEditorsPicks(data);
-      } catch (err) {
-        setErrorEditor("Could not load editor’s picks.");
-      } finally {
-        setLoadingEditor(false);
-      }
-    };
-
     fetchTrendingAnime();
-    fetchEditorsPicks();
   }, []);
 
   return (
@@ -84,23 +67,28 @@ export default function Home() {
       </section>
 
       <section className="px-4 md:px-12 py-10">
-        <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">🎯 Editor’s Picks</h2>
-        {loadingEditor && <p className="text-center text-gray-400">Loading editor’s picks...</p>}
-        {errorEditor && <p className="text-center text-red-500">{errorEditor}</p>}
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {editorsPicks.map((anime) => (
-            <div key={anime.id} className="bg-gray-800 p-4 rounded-lg shadow-lg hover:scale-105 hover:bg-gray-700 transition duration-300">
-              <Image src={anime.image} alt={anime.title} width={200} height={280} className="rounded-md object-cover w-full h-64" />
-              <h3 className="mt-2 text-base font-semibold truncate">{anime.title}</h3>
-              <p className="text-sm text-gray-400 line-clamp-2">{anime.synopsis}</p>
-              <Link href={anime.url} target="_blank">
-                <button className="mt-3 w-full px-4 py-2 bg-blue-500 text-sm rounded-md hover:bg-blue-600 transition duration-300">
-                  More Info
-                </button>
-              </Link>
-            </div>
-          ))}
+        <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">🗣️ Iconic Anime Quotes</h2>
+        <div className="space-y-6">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+            <p className="italic text-lg">"I'm gonna be King of the Pirates!"</p>
+            <p className="text-sm text-gray-400 mt-2">— Monkey D. Luffy, One Piece</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+            <p className="italic text-lg">"A lesson without pain is meaningless."</p>
+            <p className="text-sm text-gray-400 mt-2">— Edward Elric, Fullmetal Alchemist</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+            <p className="italic text-lg">"Power comes in response to a need, not a desire."</p>
+            <p className="text-sm text-gray-400 mt-2">— Goku, Dragon Ball Z</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+            <p className="italic text-lg">"The world isn’t perfect. But it’s there for us, doing the best it can… that’s what makes it so damn beautiful."</p>
+            <p className="text-sm text-gray-400 mt-2">— Roy Mustang, Fullmetal Alchemist</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+            <p className="italic text-lg">"You should enjoy the little detours. Because that's where you'll find the things more important than what you want."</p>
+            <p className="text-sm text-gray-400 mt-2">— Ging Freecss, Hunter x Hunter</p>
+          </div>
         </div>
       </section>
     </main>
