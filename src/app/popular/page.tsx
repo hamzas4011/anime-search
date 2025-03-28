@@ -88,7 +88,7 @@ export default function PopularPage() {
           aria-labelledby="anime-title"
         >
           <motion.div
-            className="bg-white text-black rounded-lg max-w-md w-full p-6 relative shadow-2xl"
+            className="bg-white text-black rounded-lg max-w-md w-full p-6 relative shadow-2xl pt-12"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -127,15 +127,9 @@ export default function PopularPage() {
             </p>
 
             <ul className="text-sm text-gray-800 space-y-1 mb-4">
-              <li>
-                <strong>Type:</strong> {selectedAnime.type ?? "Unknown"}
-              </li>
-              <li>
-                <strong>Episodes:</strong> {selectedAnime.episodes ?? "?"}
-              </li>
-              <li>
-                <strong>Score:</strong> {selectedAnime.score ?? "N/A"}
-              </li>
+              <li><strong>Type:</strong> {selectedAnime.type ?? "Unknown"}</li>
+              <li><strong>Episodes:</strong> {selectedAnime.episodes ?? "?"}</li>
+              <li><strong>Score:</strong> {selectedAnime.score ?? "N/A"}</li>
             </ul>
 
             <a
