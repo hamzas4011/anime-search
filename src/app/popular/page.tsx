@@ -7,7 +7,6 @@ interface Anime {
   mal_id: number;
   title: string;
   synopsis?: string;
-  type?: string;
   score?: number;
   episodes?: number;
   images: {
@@ -49,7 +48,7 @@ export default function PopularPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white p-6">
-      <h1 className="text-2xl sm:text-3xl font-semibold text-center text-blue-300 mb-10">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center text-white mb-10">
         🏆 Most Popular Anime of All Time
       </h1>
 
@@ -71,8 +70,7 @@ export default function PopularPage() {
               <h2 className="text-base font-bold text-white truncate">
                 {anime.title}
               </h2>
-              <div className="flex justify-between text-sm text-gray-300">
-                <span>{anime.type ?? "Unknown"}</span>
+              <div className="flex justify-end text-sm text-gray-300">
                 <span aria-label="Score">⭐ {anime.score ?? "N/A"}</span>
               </div>
             </div>
@@ -127,9 +125,12 @@ export default function PopularPage() {
             </p>
 
             <ul className="text-sm text-gray-800 space-y-1 mb-4">
-              <li><strong>Type:</strong> {selectedAnime.type ?? "Unknown"}</li>
-              <li><strong>Episodes:</strong> {selectedAnime.episodes ?? "?"}</li>
-              <li><strong>Score:</strong> {selectedAnime.score ?? "N/A"}</li>
+              <li>
+                <strong>Episodes:</strong> {selectedAnime.episodes ?? "?"}
+              </li>
+              <li>
+                <strong>Score:</strong> {selectedAnime.score ?? "N/A"}
+              </li>
             </ul>
 
             <a
