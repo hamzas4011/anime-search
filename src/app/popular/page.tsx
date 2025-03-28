@@ -48,8 +48,8 @@ export default function PopularPage() {
     return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-4xl font-bold text-center mb-10">
+    <div className="min-h-screen bg-gray-950 text-white p-6">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center text-white-300 mb-10">
         🏆 Most Popular Anime of All Time
       </h1>
 
@@ -60,7 +60,7 @@ export default function PopularPage() {
             onClick={() => setSelectedAnime(anime)}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-lg hover:shadow-blue-500/30 transition duration-300"
+            className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-blue-400/30 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
           >
             <img
               src={anime.images.jpg.image_url}
@@ -68,12 +68,12 @@ export default function PopularPage() {
               className="w-full h-56 object-cover"
             />
             <div className="p-4 space-y-2">
-              <h2 className="text-lg font-semibold truncate text-white">
+              <h2 className="text-base font-bold text-white truncate">
                 {anime.title}
               </h2>
-              <div className="flex justify-between text-sm text-gray-400">
+              <div className="flex justify-between text-sm text-gray-300">
                 <span>{anime.type ?? "Unknown"}</span>
-                <span>⭐ {anime.score ?? "N/A"}</span>
+                <span aria-label="Score">⭐ {anime.score ?? "N/A"}</span>
               </div>
             </div>
           </motion.div>
@@ -81,7 +81,7 @@ export default function PopularPage() {
       </div>
 
       {selectedAnime && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
           <motion.div
             className="bg-white text-black rounded-lg max-w-md w-full p-6 relative shadow-2xl"
             initial={{ opacity: 0, y: 50 }}
@@ -90,6 +90,7 @@ export default function PopularPage() {
             <button
               onClick={() => setSelectedAnime(null)}
               className="absolute top-3 right-4 text-xl text-gray-500 hover:text-black"
+              aria-label="Close"
             >
               ✕
             </button>
@@ -99,7 +100,7 @@ export default function PopularPage() {
               className="w-full h-56 object-cover rounded-md mb-4"
             />
             <h2 className="text-2xl font-bold mb-2">{selectedAnime.title}</h2>
-            <p className="text-gray-700 text-sm mb-3">
+            <p className="text-gray-700 text-sm mb-3 leading-relaxed">
               {selectedAnime.synopsis
                 ? selectedAnime.synopsis.slice(0, 300) + "..."
                 : "No description available."}
