@@ -67,27 +67,39 @@ export default function Home() {
       </section>
 
       <section className="px-4 md:px-12 py-10">
-        <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">🗣️ Iconic Anime Quotes</h2>
-        <div className="space-y-6">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="italic text-lg">"I'm gonna be King of the Pirates!"</p>
-            <p className="text-sm text-gray-400 mt-2">— Monkey D. Luffy, One Piece</p>
+        <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">🎭 Top Anime by Genre</h2>
+        <div className="space-y-6 text-gray-300 text-base">
+          <div>
+            <h3 className="text-lg font-semibold text-white">💥 Action</h3>
+            <ul className="list-disc list-inside pl-2">
+              <li>Attack on Titan</li>
+              <li>Jujutsu Kaisen</li>
+              <li>Vinland Saga</li>
+            </ul>
           </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="italic text-lg">"A lesson without pain is meaningless."</p>
-            <p className="text-sm text-gray-400 mt-2">— Edward Elric, Fullmetal Alchemist</p>
+          <div>
+            <h3 className="text-lg font-semibold text-white">💖 Romance</h3>
+            <ul className="list-disc list-inside pl-2">
+              <li>Your Lie in April</li>
+              <li>Toradora</li>
+              <li>Clannad: After Story</li>
+            </ul>
           </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="italic text-lg">"Power comes in response to a need, not a desire."</p>
-            <p className="text-sm text-gray-400 mt-2">— Goku, Dragon Ball Z</p>
+          <div>
+            <h3 className="text-lg font-semibold text-white">😂 Comedy</h3>
+            <ul className="list-disc list-inside pl-2">
+              <li>Gintama</li>
+              <li>Konosuba</li>
+              <li>Great Teacher Onizuka</li>
+            </ul>
           </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="italic text-lg">"The world isn’t perfect. But it’s there for us, doing the best it can… that’s what makes it so damn beautiful."</p>
-            <p className="text-sm text-gray-400 mt-2">— Roy Mustang, Fullmetal Alchemist</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="italic text-lg">"You should enjoy the little detours. Because that's where you'll find the things more important than what you want."</p>
-            <p className="text-sm text-gray-400 mt-2">— Ging Freecss, Hunter x Hunter</p>
+          <div>
+            <h3 className="text-lg font-semibold text-white">🧠 Psychological</h3>
+            <ul className="list-disc list-inside pl-2">
+              <li>Death Note</li>
+              <li>Monster</li>
+              <li>Paranoia Agent</li>
+            </ul>
           </div>
         </div>
       </section>
