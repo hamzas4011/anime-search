@@ -13,11 +13,8 @@ interface Anime {
 
 export default function Home() {
   const [trendingAnime, setTrendingAnime] = useState<Anime[]>([]);
-  const [latestAnime, setLatestAnime] = useState<Anime[]>([]);
   const [loadingTrending, setLoadingTrending] = useState(true);
-  const [loadingLatest, setLoadingLatest] = useState(true);
   const [errorTrending, setErrorTrending] = useState("");
-  const [errorLatest, setErrorLatest] = useState("");
 
   useEffect(() => {
     const fetchTrendingAnime = async () => {
@@ -35,23 +32,7 @@ export default function Home() {
       }
     };
 
-    const fetchLatestAnime = async () => {
-      try {
-        const response = await fetch("/api/latest");
-        if (!response.ok) throw new Error(`Failed to fetch latest anime: ${response.status}`);
-        const data: Anime[] = await response.json();
-        if (!Array.isArray(data)) throw new Error("Invalid data format");
-        setLatestAnime(data);
-      } catch (err) {
-        console.error("Latest Anime Fetch Error:", err);
-        setErrorLatest("Could not load latest anime.");
-      } finally {
-        setLoadingLatest(false);
-      }
-    };
-
     fetchTrendingAnime();
-    fetchLatestAnime();
   }, []);
 
   return (
@@ -88,23 +69,32 @@ export default function Home() {
       </section>
 
       <section className="px-4 md:px-12 py-10">
-        <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">📅 Latest Releases</h2>
-        {loadingLatest && <p className="text-center text-gray-400">Loading latest anime...</p>}
-        {errorLatest && <p className="text-center text-red-500">{errorLatest}</p>}
-
+        <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">🎯 Editor’s Picks</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {latestAnime.map((anime) => (
-            <div key={anime.id} className="bg-gray-800 p-4 rounded-lg shadow-lg transition hover:scale-105 hover:bg-gray-700 duration-300">
-              <Image src={anime.image} alt={anime.title} width={200} height={280} className="rounded-md object-cover w-full h-64" />
-              <h3 className="mt-2 text-base font-semibold truncate">{anime.title}</h3>
-              <p className="text-sm text-gray-400 line-clamp-2">{anime.synopsis}</p>
-              <Link href={anime.url} target="_blank">
-                <button className="mt-3 w-full px-4 py-2 bg-blue-500 text-sm rounded-md hover:bg-blue-600 transition duration-300">
-                  More Info
-                </button>
-              </Link>
-            </div>
-          ))}
+          <div className="bg-gray-800 p-4 rounded-lg shadow-lg hover:scale-105 hover:bg-gray-700 transition duration-300">
+            <Image src="/images/fma.jpg" alt="Fullmetal Alchemist" width={200} height={280} className="rounded-md object-cover w-full h-64" />
+            <h3 className="mt-2 text-base font-semibold truncate">Fullmetal Alchemist: Brotherhood</h3>
+            <p className="text-sm text-gray-400 line-clamp-2">
+              Two brothers search for the Philosopher's Stone after an attempt to revive their mother goes terribly wrong.
+            </p>
+            <Link href="https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood" target="_blank">
+              <button className="mt-3 w-full px-4 py-2 bg-blue-500 text-sm rounded-md hover:bg-blue-600 transition duration-300">
+                More Info
+              </button>
+            </Link>
+          </div>
+          <div className="bg-gray-800 p-4 rounded-lg shadow-lg hover:scale-105 hover:bg-gray-700 transition duration-300">
+            <Image src="/images/aot.jpg" alt="Attack on Titan" width={200} height={280} className="rounded-md object-cover w-full h-64" />
+            <h3 className="mt-2 text-base font-semibold truncate">Attack on Titan</h3>
+            <p className="text-sm text-gray-400 line-clamp-2">
+              Humanity fights for survival against gigantic humanoid creatures known as Titans.
+            </p>
+            <Link href="https://myanimelist.net/anime/16498/Shingeki_no_Kyojin" target="_blank">
+              <button className="mt-3 w-full px-4 py-2 bg-blue-500 text-sm rounded-md hover:bg-blue-600 transition duration-300">
+                More Info
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
     </main>
