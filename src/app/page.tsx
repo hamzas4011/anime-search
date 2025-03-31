@@ -23,7 +23,7 @@ export default function Home() {
         if (!response.ok) throw new Error("Failed to fetch trending anime.");
         const data: Anime[] = await response.json();
         setTrendingAnime(data);
-      } catch (err) {
+      } catch {
         setErrorTrending("Could not load trending anime.");
       } finally {
         setLoadingTrending(false);
