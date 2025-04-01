@@ -23,8 +23,11 @@ const Navbar = () => {
           <Link href="/popular" className="block md:inline-block text-lg font-medium hover:text-gray-300 transition px-4 py-2">
             Popular
           </Link>
-          <Link href="/genres" className="block md:inline-block text-lg font-medium hover:text-gray-300 transition px-4 py-2">
-            Genres
+          <Link href="/editors" className="block md:inline-block text-lg font-medium hover:text-gray-300 transition px-4 py-2">
+            Editors Pick
+          </Link>
+          <Link href="/contact" className="block md:inline-block text-lg font-medium hover:text-gray-300 transition px-4 py-2">
+            Contact
           </Link>
         </div>
       </div>
