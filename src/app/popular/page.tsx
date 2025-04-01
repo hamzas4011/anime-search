@@ -47,7 +47,7 @@ export default function PopularPage() {
     return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-6">
+    <div className="min-h-screen bg-gray-900 text-white p-6">
       <h1 className="text-2xl sm:text-3xl font-semibold text-center text-white mb-10">
         🏆 Most Popular Anime of All Time
       </h1>
