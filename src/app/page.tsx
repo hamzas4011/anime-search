@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white">
+    <main className="min-h-screen bg-gray-900 text-white">
       <section className="flex flex-col items-center justify-center text-center h-[50vh] px-6">
         <h1 className="text-4xl md:text-5xl font-bold">AnimeExplorer</h1>
         <p className="mt-3 text-lg text-gray-400">Discover, explore, and track your favorite anime.</p>
