@@ -38,7 +38,7 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center text-center h-[50vh] px-6">
         <h1 className="text-4xl md:text-5xl font-bold">AnimeExplorer</h1>
         <p className="mt-3 text-lg text-gray-400">Discover, explore, and track your favorite anime.</p>
-        <Link href="/explore">
+        <Link href="https://myanimelist.net/anime.php" target="_blank">
           <button className="mt-5 px-6 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg text-white font-medium transition duration-300">
             Start Exploring
           </button>
@@ -77,7 +77,7 @@ export default function Home() {
               <li className="hover:text-white hover:translate-x-1 transition">• Jujutsu Kaisen</li>
               <li className="hover:text-white hover:translate-x-1 transition">• Vinland Saga</li>
             </ul>
-            <Link href="/genres">
+            <Link href="https://myanimelist.net/anime/genre/1/Action" target="_blank">
               <p className="mt-3 text-sm text-blue-400 hover:underline">Explore Action Anime →</p>
             </Link>
           </div>
@@ -90,7 +90,7 @@ export default function Home() {
               <li className="hover:text-white hover:translate-x-1 transition">• Toradora</li>
               <li className="hover:text-white hover:translate-x-1 transition">• Clannad: After Story</li>
             </ul>
-            <Link href="/genres">
+            <Link href="https://myanimelist.net/anime/genre/22/Romance" target="_blank">
               <p className="mt-3 text-sm text-pink-400 hover:underline">Explore Romance Anime →</p>
             </Link>
           </div>
@@ -103,7 +103,7 @@ export default function Home() {
               <li className="hover:text-white hover:translate-x-1 transition">• Konosuba</li>
               <li className="hover:text-white hover:translate-x-1 transition">• Great Teacher Onizuka</li>
             </ul>
-            <Link href="/genres">
+            <Link href="https://myanimelist.net/anime/genre/4/Comedy" target="_blank">
               <p className="mt-3 text-sm text-yellow-300 hover:underline">Explore Comedy Anime →</p>
             </Link>
           </div>
@@ -116,7 +116,7 @@ export default function Home() {
               <li className="hover:text-white hover:translate-x-1 transition">• Monster</li>
               <li className="hover:text-white hover:translate-x-1 transition">• Paranoia Agent</li>
             </ul>
-            <Link href="/genres">
+            <Link href="https://myanimelist.net/anime/genre/40/Psychological" target="_blank">
               <p className="mt-3 text-sm text-purple-400 hover:underline">Explore Psychological Anime →</p>
             </Link>
           </div>
