@@ -26,9 +26,6 @@ const Navbar = () => {
           <Link href="/editors" className="block md:inline-block text-lg font-medium hover:text-gray-300 transition px-4 py-2">
             Editors Pick
           </Link>
-          <Link href="/contact" className="block md:inline-block text-lg font-medium hover:text-gray-300 transition px-4 py-2">
-            Contact
-          </Link>
         </div>
       </div>
     </nav>
