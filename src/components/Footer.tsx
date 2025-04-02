@@ -10,10 +10,10 @@ const Footer = () => {
             <p className="text-sm text-gray-400">Your go-to place for anime reviews and updates.</p>
           </div>
 
-          <div className="flex space-x-6 text-sm text-gray-400">
-            <span>Contact</span>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
+          <div className="flex space-x-6">
+            <span className="text-sm text-gray-400">Contact</span>
+            <span className="text-sm text-gray-400">Privacy Policy</span>
+            <span className="text-sm text-gray-400">Terms of Service</span>
           </div>
 
           <div className="flex space-x-4 mt-4 md:mt-0">
