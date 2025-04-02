@@ -11,9 +11,9 @@ const Footer = () => {
           </div>
 
           <div className="flex space-x-6">
-            <span className="text-sm text-gray-400">Contact</span>
-            <span className="text-sm text-gray-400">Privacy Policy</span>
-            <span className="text-sm text-gray-400">Terms of Service</span>
+            <span className="text-base text-white">Contact</span>
+            <span className="text-base text-white">Privacy Policy</span>
+            <span className="text-base text-white">Terms of Service</span>
           </div>
 
           <div className="flex space-x-4 mt-4 md:mt-0">
