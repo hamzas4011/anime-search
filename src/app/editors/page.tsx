@@ -32,36 +32,45 @@ export default function EditorsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-3xl sm:text-4xl font-bold text-center mb-10">
+    <main className="min-h-screen bg-gray-900 text-white px-4 py-10">
+      <h1 className="text-3xl font-bold text-center mb-10">
         🎯 Top 10 Editor’s Picks
       </h1>
 
       {error && <p className="text-center text-red-500">{error}</p>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
         {picks.map((anime, index) => (
           <div
             key={anime.id}
-            className="relative bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:shadow-blue-500/40 transition duration-300"
+            tabIndex={0}
+            className="group relative rounded-lg border border-gray-700 bg-gray-800 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-blue-400 transition duration-200"
           >
-            <div className="absolute top-2 left-2 bg-blue-600 text-white font-bold text-sm px-3 py-1 rounded-full z-10">
+            <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded-full z-10">
               #{index + 1}
             </div>
+
             <Image
               src={anime.image}
               alt={anime.title}
               width={400}
-              height={600}
-              className="w-full h-64 object-cover"
+              height={300}
+              className="w-full h-48 object-cover rounded-t-lg"
             />
-            <div className="p-4">
-              <h2 className="text-lg font-bold truncate">{anime.title}</h2>
-              <p className="text-sm text-gray-300 mt-2 line-clamp-3">
+
+            <div className="p-4 space-y-2">
+              <h2 className="text-base font-semibold leading-tight line-clamp-1">
+                {anime.title}
+              </h2>
+              <p className="text-sm text-gray-300 line-clamp-3 leading-snug">
                 {anime.synopsis}
               </p>
+
               <Link href={anime.url} target="_blank">
-                <button className="mt-4 w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition">
+                <button
+                  className="mt-2 w-full py-2 text-sm font-medium rounded-md bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                  aria-label={`View more about ${anime.title}`}
+                >
                   More Info
                 </button>
               </Link>
