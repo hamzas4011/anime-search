@@ -33,18 +33,21 @@ export default function EditorsPage() {
 
   return (
     <main className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-2xl sm:text-3xl font-semibold text-center text-white mb-10">
-        🎯 Editor’s Pick: Handpicked Favorites
+      <h1 className="text-3xl sm:text-4xl font-bold text-center mb-10">
+        🎯 Top 10 Editor’s Picks
       </h1>
 
       {error && <p className="text-center text-red-500">{error}</p>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {picks.map((anime) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        {picks.map((anime, index) => (
           <div
             key={anime.id}
-            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-blue-400/30 transition duration-300 border border-gray-700"
+            className="relative bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:shadow-blue-500/40 transition duration-300"
           >
+            <div className="absolute top-2 left-2 bg-blue-600 text-white font-bold text-sm px-3 py-1 rounded-full z-10">
+              #{index + 1}
+            </div>
             <Image
               src={anime.image}
               alt={anime.title}
@@ -54,7 +57,7 @@ export default function EditorsPage() {
             />
             <div className="p-4">
               <h2 className="text-lg font-bold truncate">{anime.title}</h2>
-              <p className="text-sm text-gray-400 mt-2 line-clamp-3">
+              <p className="text-sm text-gray-300 mt-2 line-clamp-3">
                 {anime.synopsis}
               </p>
               <Link href={anime.url} target="_blank">
