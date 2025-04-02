@@ -49,10 +49,10 @@ export default function EditorsPage() {
                 src={anime.image}
                 alt={anime.title}
                 width={400}
-                height={250}
-                className="w-full h-52 object-cover"
+                height={225}
+                className="w-full h-56 object-cover rounded-t-lg"
               />
-              <div className="absolute top-2 left-2 bg-black bg-opacity-60 text-white text-xs font-bold px-3 py-1 rounded-full">
+              <div className="absolute top-2 left-2 bg-black bg-opacity-80 text-white text-sm font-extrabold px-3 py-1 rounded-full shadow-md ring-1 ring-white/10">
                 #{index + 1}
               </div>
             </div>
@@ -67,7 +67,7 @@ export default function EditorsPage() {
 
               <Link href={anime.url} target="_blank">
                 <button
-                  className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-700 text-sm font-medium rounded-md transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="mt-2 w-full py-2 bg-blue-600 hover:bg-blue-700 text-sm font-medium rounded-md transition focus:outline-none focus:ring-2 focus:ring-blue-400"
                   aria-label={`More info about ${anime.title}`}
                 >
                   More Info
