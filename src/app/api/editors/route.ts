@@ -72,6 +72,20 @@ export async function GET() {
       synopsis: "A young girl enters a magical world and must find her way back.",
       url: "https://myanimelist.net/anime/199/Sen_to_Chihiro_no_Kamikakushi",
     },
+    {
+      id: 11,
+      title: "Jujutsu Kaisen",
+      image: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
+      synopsis: "A high school student swallows a cursed object and joins a school for Jujutsu sorcerers.",
+      url: "https://myanimelist.net/anime/40748/Jujutsu_Kaisen",
+    },
+    {
+      id: 12,
+      title: "Violet Evergarden",
+      image: "https://cdn.myanimelist.net/images/anime/1795/95088.jpg",
+      synopsis: "A former soldier becomes a ghostwriter to understand emotions and reconnect with her past.",
+      url: "https://myanimelist.net/anime/33352/Violet_Evergarden",
+    },
   ];
 
   return NextResponse.json(editorsPicks);
