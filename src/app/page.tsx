@@ -59,34 +59,32 @@ export default function Home() {
           <p className="text-center text-red-500">{errorTrending}</p>
         )}
 
-        <div className="md:flex md:overflow-x-auto md:space-x-6 hide-scrollbar">
-          <div className="grid grid-cols-2 gap-6 md:flex md:gap-0">
-            {trendingAnime.map((anime) => (
-              <div
-                key={anime.id}
-                className="bg-gray-800 min-w-[220px] max-w-[240px] md:mr-6 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300"
-              >
-                <Image
-                  src={anime.image}
-                  alt={anime.title}
-                  width={400}
-                  height={250}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-3">
-                  <h3 className="text-sm font-semibold truncate">{anime.title}</h3>
-                  <p className="text-xs text-gray-300 mt-1 line-clamp-2">
-                    {anime.synopsis}
-                  </p>
-                  <Link href={anime.url} target="_blank">
-                    <button className="mt-3 w-full py-1 text-xs bg-blue-600 hover:bg-blue-700 rounded-md text-white transition">
-                      More Info
-                    </button>
-                  </Link>
-                </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+          {trendingAnime.map((anime) => (
+            <div
+              key={anime.id}
+              className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
+            >
+              <Image
+                src={anime.image}
+                alt={anime.title}
+                width={500}
+                height={300}
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-4">
+                <h3 className="text-lg font-semibold truncate">{anime.title}</h3>
+                <p className="text-sm text-gray-300 mt-2 line-clamp-2">
+                  {anime.synopsis}
+                </p>
+                <Link href={anime.url} target="_blank">
+                  <button className="mt-4 w-full py-2 text-sm bg-blue-600 hover:bg-blue-700 rounded-md text-white transition">
+                    More Info
+                  </button>
+                </Link>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -101,23 +99,12 @@ export default function Home() {
               High-energy battles and epic fight scenes.
             </p>
             <ul className="space-y-1 text-gray-300 text-sm">
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Attack on Titan
-              </li>
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Jujutsu Kaisen
-              </li>
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Vinland Saga
-              </li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Attack on Titan</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Jujutsu Kaisen</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Vinland Saga</li>
             </ul>
-            <Link
-              href="https://myanimelist.net/anime/genre/1/Action"
-              target="_blank"
-            >
-              <p className="mt-3 text-sm text-blue-400 hover:underline">
-                Explore Action Anime →
-              </p>
+            <Link href="https://myanimelist.net/anime/genre/1/Action" target="_blank">
+              <p className="mt-3 text-sm text-blue-400 hover:underline">Explore Action Anime →</p>
             </Link>
           </div>
 
@@ -127,23 +114,12 @@ export default function Home() {
               Heartfelt stories of love, connection, and emotion.
             </p>
             <ul className="space-y-1 text-gray-300 text-sm">
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Your Lie in April
-              </li>
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Toradora
-              </li>
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Clannad: After Story
-              </li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Your Lie in April</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Toradora</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Clannad: After Story</li>
             </ul>
-            <Link
-              href="https://myanimelist.net/anime/genre/22/Romance"
-              target="_blank"
-            >
-              <p className="mt-3 text-sm text-pink-400 hover:underline">
-                Explore Romance Anime →
-              </p>
+            <Link href="https://myanimelist.net/anime/genre/22/Romance" target="_blank">
+              <p className="mt-3 text-sm text-pink-400 hover:underline">Explore Romance Anime →</p>
             </Link>
           </div>
 
@@ -153,51 +129,27 @@ export default function Home() {
               Hilarious characters and over-the-top fun moments.
             </p>
             <ul className="space-y-1 text-gray-300 text-sm">
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Gintama
-              </li>
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Konosuba
-              </li>
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Great Teacher Onizuka
-              </li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Gintama</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Konosuba</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Great Teacher Onizuka</li>
             </ul>
-            <Link
-              href="https://myanimelist.net/anime/genre/4/Comedy"
-              target="_blank"
-            >
-              <p className="mt-3 text-sm text-yellow-300 hover:underline">
-                Explore Comedy Anime →
-              </p>
+            <Link href="https://myanimelist.net/anime/genre/4/Comedy" target="_blank">
+              <p className="mt-3 text-sm text-yellow-300 hover:underline">Explore Comedy Anime →</p>
             </Link>
           </div>
 
           <div className="bg-gray-800 border-l-4 border-purple-500 p-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300">
-            <h3 className="text-xl font-bold text-purple-400 mb-1">
-              🧠 Psychological
-            </h3>
+            <h3 className="text-xl font-bold text-purple-400 mb-1">🧠 Psychological</h3>
             <p className="text-sm text-gray-400 mb-3">
               Mind-bending plots and intense character studies.
             </p>
             <ul className="space-y-1 text-gray-300 text-sm">
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Death Note
-              </li>
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Monster
-              </li>
-              <li className="hover:text-white hover:translate-x-1 transition">
-                • Paranoia Agent
-              </li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Death Note</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Monster</li>
+              <li className="hover:text-white hover:translate-x-1 transition">• Paranoia Agent</li>
             </ul>
-            <Link
-              href="https://myanimelist.net/anime/genre/40/Psychological"
-              target="_blank"
-            >
-              <p className="mt-3 text-sm text-purple-400 hover:underline">
-                Explore Psychological Anime →
-              </p>
+            <Link href="https://myanimelist.net/anime/genre/40/Psychological" target="_blank">
+              <p className="mt-3 text-sm text-purple-400 hover:underline">Explore Psychological Anime →</p>
             </Link>
           </div>
         </div>
