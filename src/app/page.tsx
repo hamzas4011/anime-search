@@ -49,46 +49,45 @@ export default function Home() {
       </section>
 
       <section className="px-4 md:px-12 py-10">
-        <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">
-          🔥 Trending Anime
-        </h2>
-        {loadingTrending && (
-          <p className="text-center text-gray-400">Loading trending anime...</p>
-        )}
-        {errorTrending && (
-          <p className="text-center text-red-500">{errorTrending}</p>
-        )}
+  <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">
+    🔥 Trending Anime
+  </h2>
+  {loadingTrending && (
+    <p className="text-center text-gray-400">Loading trending anime...</p>
+  )}
+  {errorTrending && (
+    <p className="text-center text-red-500">{errorTrending}</p>
+  )}
 
-        <div className="md:flex md:overflow-x-auto md:space-x-6 hide-scrollbar">
-          <div className="grid grid-cols-2 gap-6 md:flex md:gap-0">
-            {trendingAnime.map((anime) => (
-              <div
-                key={anime.id}
-                className="bg-gray-800 min-w-[220px] max-w-[240px] md:mr-6 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300"
-              >
-                <Image
-                  src={anime.image}
-                  alt={anime.title}
-                  width={400}
-                  height={250}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-3">
-                  <h3 className="text-sm font-semibold truncate">{anime.title}</h3>
-                  <p className="text-xs text-gray-300 mt-1 line-clamp-2">
-                    {anime.synopsis}
-                  </p>
-                  <Link href={anime.url} target="_blank">
-                    <button className="mt-3 w-full py-1 text-xs bg-blue-600 hover:bg-blue-700 rounded-md text-white transition">
-                      More Info
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {trendingAnime.map((anime) => (
+      <div
+        key={anime.id}
+        className="bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300"
+      >
+        <Image
+          src={anime.image}
+          alt={anime.title}
+          width={400}
+          height={250}
+          className="w-full h-56 object-cover"
+        />
+        <div className="p-4">
+          <h3 className="text-sm font-semibold truncate">{anime.title}</h3>
+          <p className="text-xs text-gray-300 mt-1 line-clamp-2">
+            {anime.synopsis}
+          </p>
+          <Link href={anime.url} target="_blank">
+            <button className="mt-3 w-full py-2 text-xs bg-blue-600 hover:bg-blue-700 rounded-md text-white transition">
+              More Info
+            </button>
+          </Link>
         </div>
-      </section>
+      </div>
+    ))}
+  </div>
+</section>
+
 
       <section className="px-4 md:px-12 py-10">
         <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">
