@@ -5,11 +5,11 @@ export async function GET() {
     const response = await fetch('https://api.jikan.moe/v4/top/anime');
     const data = await response.json();
 
-    const trendingAnime = data.data.slice(0, 6).map((anime: { 
-      mal_id: number; 
-      title: string; 
-      images: { jpg: { image_url: string } }; 
-      synopsis: string; 
+    const trendingAnime = data.data.slice(0, 6).map((anime: {
+      mal_id: number;
+      title: string;
+      images: { jpg: { image_url: string } };
+      synopsis: string;
       url: string;
     }) => ({
       id: anime.mal_id,
