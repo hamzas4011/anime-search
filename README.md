@@ -1,20 +1,19 @@
-# 🌸 AnimeExplorer
+# 🌟 AnimeExplorer
 
-**AnimeExplorer** is a sleek and modern anime discovery web app built with **Next.js 13**, **TypeScript**, and **Tailwind CSS**.  
-It fetches real-time data from the open-source **Jikan API**, which provides access to MyAnimeList's vast anime database.  
-Perfect for anime fans who want to explore trending titles, top genres, and editor-picked favorites – all in one stylish and accessible platform. 🎬✨
+Welcome to **AnimeExplorer** — a modern, clean, and accessible web app built with **Next.js**, **Tailwind CSS**, **TypeScript**, and the **Jikan API** (Unofficial MyAnimeList API). 🎌📺  
+Discover trending anime and explore top picks by genre with a sleek and user-friendly interface!
 
-## 🔥 Features
+![AnimeExplorer Preview](https://github.com/user-attachments/assets/afc732d4-2eb6-4b7b-99bf-35f6dd7afdf9)
 
-- 🎯 **Trending Anime** – Real-time updates on the hottest shows.
-- 🏆 **Popular Picks** – View the most loved anime of all time.
-- 🎭 **Top by Genre** – Handpicked anime across Action, Romance, Comedy, and Psychological genres.
-- 💎 **Editor’s Picks** – Unique, curated selections to discover gems.
-- 📱 **Responsive Design** – Optimized for mobile and desktop with accessibility in mind.
+## 🎯 Features
 
-## 🛠️ Tech Stack
+- 🔥 **Trending Anime** – Discover the latest popular anime series.
+- 🎭 **Top Anime by Genre** – Browse categories like Action, Romance, Comedy, and more.
+- 🧩 **Responsive Design** – Mobile-first and fully responsive for all devices.
+- 🦾 **Accessible & Universal Design** – Thoughtful layout, color contrast, and interactions for everyone.
 
-- ⚛️ Next.js 13 (App Router)
-- 🟦 TypeScript
-- 🎨 Tailwind CSS
-- 📡 Jikan API (Unofficial MyAnimeList API)
+## 🌐 Live Demo
+
+[🔗 View the Website](https://anime-search-explore.vercel.app)
+
+
