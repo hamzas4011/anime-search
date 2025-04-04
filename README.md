@@ -1,14 +1,24 @@
-# Anime Search App (In Progress) 💻
+# 🌸 AnimeExplorer
 
-This is an **Anime Search App** built with **Next.js, TypeScript, and Tailwind CSS**. The app allows users to **search for anime**, view details, and explore trending titles. It fetches real-time anime data using the **Jikan API / Anilist API** and stores user-related data in a **database**. The project follows **modern development best practices**, using **import aliases (`@/`)** for better structure and maintainability.
+**AnimeExplorer** is a sleek and modern anime discovery web app built with **Next.js 13**, **TypeScript**, and **Tailwind CSS**.  
+It fetches real-time data from the open-source **Jikan API**, which provides access to MyAnimeList's vast anime database.  
+Perfect for anime fans who want to explore trending titles, top genres, and editor-picked favorites – all in one stylish and accessible platform. 🎬✨
 
-## 📌 Technologies Used
-- **Next.js (App Router)** – Framework for optimized, server-side rendered React apps.
-- **TypeScript** – Ensures type safety and improves maintainability.
-- **Tailwind CSS** – Utility-first CSS framework for fast styling.
-- **Jikan API / Anilist API** – Fetches anime data dynamically.
-- **Database** – Will be used to store user data.
-- **Import Aliases (`@/`)** – Simplifies imports and keeps the project organized.
+## 🔥 Features
 
-## 🚀 Project Status
-🔨 **Work in Progress** – Currently developing the **search functionality** and **anime details page**. A **database** will be integrated to store user favorites and search history. More features like a **favorites list** and **filtering by genre** will be added soon.
+- 🎯 **Trending Anime** – Real-time updates on the hottest shows.
+- 🏆 **Popular Picks** – View the most loved anime of all time.
+- 🎭 **Top by Genre** – Handpicked anime across Action, Romance, Comedy, and Psychological genres.
+- 💎 **Editor’s Picks** – Unique, curated selections to discover gems.
+- 📱 **Responsive Design** – Optimized for mobile and desktop with accessibility in mind.
+
+## 🛠️ Tech Stack
+
+- ⚛️ Next.js 13 (App Router)
+- 🟦 TypeScript
+- 🎨 Tailwind CSS
+- 📡 Jikan API (Unofficial MyAnimeList API)
+
+---
+
+Made with ❤️ by [Your Name]
