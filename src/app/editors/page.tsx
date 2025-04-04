@@ -105,8 +105,10 @@ export default function EditorsPage() {
               {selectedAnime.title}
             </h2>
 
-            <p className="text-gray-700 text-sm mb-4 leading-relaxed line-clamp-4">
-              {selectedAnime.synopsis ?? "No description available."}
+            <p className="text-gray-700 text-sm mb-4 leading-relaxed">
+              {selectedAnime.synopsis
+                ? `${selectedAnime.synopsis.slice(0, 200)}...`
+                : "No description available."}
               {selectedAnime.synopsis && (
                 <a
                   href={selectedAnime.url}
