@@ -78,8 +78,18 @@ export default function EditorsPage() {
       </div>
 
       {selectedAnime && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+          onClick={() => {
+            setSelectedAnime(null);
+            setSelectedIndex(null);
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="anime-title"
+        >
           <motion.div
+            onClick={(e) => e.stopPropagation()}
             className="bg-white text-black rounded-lg max-w-md w-full p-6 relative shadow-2xl pt-12"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
