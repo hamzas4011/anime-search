@@ -18,7 +18,3 @@ Perfect for anime fans who want to explore trending titles, top genres, and edit
 - 🟦 TypeScript
 - 🎨 Tailwind CSS
 - 📡 Jikan API (Unofficial MyAnimeList API)
-
----
-
-Made with ❤️ by [Your Name]
