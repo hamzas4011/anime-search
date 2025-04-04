@@ -53,7 +53,7 @@ export default function PopularPage() {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {popularAnime.map((anime, index) => (
+        {popularAnime.map((anime) => (
           <motion.div
             key={anime.mal_id}
             onClick={() => setSelectedAnime(anime)}
@@ -71,9 +71,8 @@ export default function PopularPage() {
               <p className="text-sm text-gray-300 leading-snug line-clamp-2">
                 {anime.synopsis ?? "No description available."}
               </p>
-              <div className="flex justify-between text-sm text-white font-bold">
-                <span>⭐ {anime.score ?? "N/A"}</span>
-                <span>#{index + 1}</span>
+              <div className="flex justify-end text-sm text-white font-bold">
+                ⭐ {anime.score ?? "N/A"}
               </div>
             </div>
           </motion.div>
