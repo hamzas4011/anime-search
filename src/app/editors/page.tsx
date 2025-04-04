@@ -62,8 +62,11 @@ export default function EditorsPage() {
             />
 
             <div className="p-4 flex flex-col justify-between flex-grow space-y-3">
-              <div className="flex items-center justify-between">
-                <h2 id={`anime-title-${index}`} className="text-base font-bold truncate">
+              <div className="flex items-center justify-between gap-3">
+                <h2
+                  id={`anime-title-${index}`}
+                  className="text-base font-bold leading-snug line-clamp-2 pr-2"
+                >
                   {anime.title}
                 </h2>
                 <span className="text-xs bg-white text-black font-bold px-2 py-1 rounded">
@@ -77,10 +80,6 @@ export default function EditorsPage() {
               >
                 {anime.synopsis || "No description available."}
               </p>
-
-              <span className="inline-block w-fit text-xs font-medium px-2 py-1 bg-blue-600 rounded-md text-white">
-                Editor’s Pick
-              </span>
 
               <a
                 href={anime.url}
