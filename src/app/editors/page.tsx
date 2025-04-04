@@ -15,6 +15,7 @@ export default function EditorsPage() {
   const [picks, setPicks] = useState<Anime[]>([]);
   const [error, setError] = useState("");
   const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,7 +51,10 @@ export default function EditorsPage() {
         {picks.map((anime, index) => (
           <motion.div
             key={anime.id}
-            onClick={() => setSelectedAnime(anime)}
+            onClick={() => {
+              setSelectedAnime(anime);
+              setSelectedIndex(index + 1);
+            }}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
             className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-blue-400/30 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
@@ -86,7 +90,10 @@ export default function EditorsPage() {
             animate={{ opacity: 1, y: 0 }}
           >
             <button
-              onClick={() => setSelectedAnime(null)}
+              onClick={() => {
+                setSelectedAnime(null);
+                setSelectedIndex(null);
+              }}
               className="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
               aria-label="Close modal"
             >
@@ -102,6 +109,10 @@ export default function EditorsPage() {
             <h2 id="anime-title" className="text-2xl font-bold mb-2">
               {selectedAnime.title}
             </h2>
+
+            <div className="text-sm text-gray-800 font-semibold mb-2">
+              🏅 Ranked #{selectedIndex}
+            </div>
 
             <p className="text-gray-700 text-sm mb-4 leading-relaxed">
               {selectedAnime.synopsis
