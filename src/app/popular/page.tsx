@@ -48,12 +48,12 @@ export default function PopularPage() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-2xl sm:text-3xl font-semibold text-center text-white mb-10">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-10">
         🏆 Most Popular Anime of All Time
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {popularAnime.map((anime) => (
+        {popularAnime.map((anime, index) => (
           <motion.div
             key={anime.mal_id}
             onClick={() => setSelectedAnime(anime)}
@@ -67,11 +67,13 @@ export default function PopularPage() {
               className="w-full h-56 object-cover"
             />
             <div className="p-4 space-y-2">
-              <h2 className="text-base font-bold text-white truncate">
-                {anime.title}
-              </h2>
-              <div className="flex justify-end text-sm text-gray-300">
-                <span aria-label="Score">⭐ {anime.score ?? "N/A"}</span>
+              <h2 className="text-base font-bold truncate">{anime.title}</h2>
+              <p className="text-sm text-gray-300 leading-snug line-clamp-2">
+                {anime.synopsis ?? "No description available."}
+              </p>
+              <div className="flex justify-between text-sm text-white font-bold">
+                <span>⭐ {anime.score ?? "N/A"}</span>
+                <span>#{index + 1}</span>
               </div>
             </div>
           </motion.div>
@@ -108,7 +110,7 @@ export default function PopularPage() {
               {selectedAnime.title}
             </h2>
 
-            <p className="text-gray-700 text-sm mb-3 leading-relaxed">
+            <p className="text-gray-700 text-sm mb-4 leading-relaxed">
               {selectedAnime.synopsis
                 ? `${selectedAnime.synopsis.slice(0, 200)}...`
                 : "No description available."}
