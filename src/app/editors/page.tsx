@@ -63,7 +63,7 @@ export default function EditorsPage() {
             <div className="p-4 space-y-2">
               <h2 className="text-base font-bold truncate">{anime.title}</h2>
               <p className="text-sm text-gray-300 leading-snug line-clamp-2">
-                {anime.synopsis}
+                {anime.synopsis ?? "No description available."}
               </p>
               <div className="flex justify-end text-sm text-white font-bold">
                 🏅 #{index + 1}
