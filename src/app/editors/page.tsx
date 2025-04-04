@@ -70,7 +70,7 @@ export default function EditorsPage() {
                 {anime.synopsis ?? "No description available."}
               </p>
               <div className="flex justify-end text-sm text-white font-bold">
-                🏅 #{index + 1}
+                🏅 {index + 1}
               </div>
             </div>
           </motion.div>
@@ -121,7 +121,7 @@ export default function EditorsPage() {
 
             <ul className="text-sm text-gray-800 space-y-1 mb-4">
               <li>
-                <strong>Ranking:</strong> #{selectedIndex}
+                <strong>Ranking:</strong> {selectedIndex}
               </li>
             </ul>
 
