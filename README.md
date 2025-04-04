@@ -1,6 +1,6 @@
 # 🌸 AnimeExplorer
 
-**AnimeExplorer** is a sleek and modern anime discovery web app built with **Next.js 13**, **TypeScript**, and **Tailwind CSS**.  
+**AnimeExplorer** is a sleek and modern anime discovery web app built with **TypeScript**,**Next.js**, and **Tailwind CSS**.  
 It fetches real-time data from the open-source **Jikan API**, which provides access to MyAnimeList's vast anime database.  
 Perfect for anime fans who want to explore trending titles, top genres, and editor-picked favorites – all in one stylish and accessible platform. 🎬✨
 
@@ -14,7 +14,7 @@ Perfect for anime fans who want to explore trending titles, top genres, and edit
 
 ## 🛠️ Tech Stack
 
-- ⚛️ Next.js 13 (App Router)
+- ⚛️ Next.js (App Router)
 - 🟦 TypeScript
 - 🎨 Tailwind CSS
 - 📡 Jikan API (Unofficial MyAnimeList API)
