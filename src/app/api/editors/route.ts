@@ -10,8 +10,9 @@ export async function GET() {
 
     const data = await response.json();
 
-    // Pretend the first 12 anime are editor's picks
-    const picks = data.data.slice(0, 12).map((anime: any) => ({
+    const shuffled = data.data.sort(() => Math.random() - 0.5);
+
+    const picks = shuffled.slice(0, 12).map((anime: any) => ({
       id: anime.mal_id,
       title: anime.title,
       image: anime.images.jpg.image_url,
@@ -22,6 +23,9 @@ export async function GET() {
     return NextResponse.json(picks);
   } catch (error) {
     console.error("Editor Picks API Error:", error);
-    return NextResponse.json({ error: "Failed to fetch editor picks" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch editor picks" },
+      { status: 500 }
+    );
   }
 }
