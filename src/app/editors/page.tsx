@@ -78,12 +78,7 @@ export default function EditorsPage() {
       </div>
 
       {selectedAnime && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="anime-title"
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
           <motion.div
             className="bg-white text-black rounded-lg max-w-md w-full p-6 relative shadow-2xl pt-12"
             initial={{ opacity: 0, y: 50 }}
@@ -100,19 +95,22 @@ export default function EditorsPage() {
               ×
             </button>
 
-            <img
-              src={selectedAnime.image}
-              alt={`Poster of ${selectedAnime.title}`}
-              className="w-full h-56 object-cover rounded-md mb-4"
-            />
+            <div className="relative mb-4">
+              <img
+                src={selectedAnime.image}
+                alt={`Poster of ${selectedAnime.title}`}
+                className="w-full h-56 object-cover rounded-md"
+              />
+              {selectedIndex && (
+                <div className="absolute top-2 left-2 bg-black bg-opacity-80 text-white text-sm font-bold px-3 py-1 rounded-full shadow-md ring-1 ring-white/10">
+                  🏅 #{selectedIndex}
+                </div>
+              )}
+            </div>
 
             <h2 id="anime-title" className="text-2xl font-bold mb-2">
               {selectedAnime.title}
             </h2>
-
-            <div className="text-sm text-gray-800 font-semibold mb-2">
-              🏅 Ranked #{selectedIndex}
-            </div>
 
             <p className="text-gray-700 text-sm mb-4 leading-relaxed">
               {selectedAnime.synopsis
