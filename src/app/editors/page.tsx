@@ -70,7 +70,7 @@ export default function EditorsPage() {
                 {anime.synopsis ?? "No description available."}
               </p>
               <div className="flex justify-end text-sm text-white font-bold">
-                #{index + 1}
+                🏅 #{index + 1}
               </div>
             </div>
           </motion.div>
