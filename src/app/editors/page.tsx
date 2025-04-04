@@ -95,18 +95,11 @@ export default function EditorsPage() {
               ×
             </button>
 
-            <div className="relative mb-4">
-              <img
-                src={selectedAnime.image}
-                alt={`Poster of ${selectedAnime.title}`}
-                className="w-full h-56 object-cover rounded-md"
-              />
-              {selectedIndex && (
-                <div className="absolute top-2 left-2 bg-black bg-opacity-80 text-white text-sm font-bold px-3 py-1 rounded-full shadow-md ring-1 ring-white/10">
-                  🏅 #{selectedIndex}
-                </div>
-              )}
-            </div>
+            <img
+              src={selectedAnime.image}
+              alt={`Poster of ${selectedAnime.title}`}
+              className="w-full h-56 object-cover rounded-md mb-4"
+            />
 
             <h2 id="anime-title" className="text-2xl font-bold mb-2">
               {selectedAnime.title}
@@ -128,13 +121,19 @@ export default function EditorsPage() {
               )}
             </p>
 
+            <ul className="text-sm text-gray-800 space-y-1 mb-4">
+              <li>
+                <strong>Ranking:</strong> 🏅 #{selectedIndex}
+              </li>
+            </ul>
+
             <a
               href={selectedAnime.url}
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full text-center bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              View on External Site
+              View on MyAnimeList
             </a>
           </motion.div>
         </div>
