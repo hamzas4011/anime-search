@@ -1,5 +1,16 @@
 import { NextResponse } from "next/server";
 
+type JikanAnime = {
+  mal_id: number;
+  title: string;
+  synopsis: string;
+  images: {
+    jpg: {
+      image_url: string;
+    };
+  };
+};
+
 export async function GET() {
   try {
     const response = await fetch("https://api.jikan.moe/v4/top/anime");
@@ -12,7 +23,7 @@ export async function GET() {
 
     const shuffled = data.data.sort(() => Math.random() - 0.5);
 
-    const picks = shuffled.slice(0, 12).map((anime: any) => ({
+    const picks = (shuffled as JikanAnime[]).slice(0, 12).map((anime) => ({
       id: anime.mal_id,
       title: anime.title,
       image: anime.images.jpg.image_url,
