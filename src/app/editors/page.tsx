@@ -107,16 +107,6 @@ export default function EditorsPage() {
 
             <p className="text-gray-700 text-sm mb-4 leading-relaxed line-clamp-4">
               {selectedAnime.synopsis ?? "No description available."}
-              {selectedAnime.synopsis && (
-                <a
-                  href={selectedAnime.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ml-1 text-blue-600 hover:underline text-sm"
-                >
-                  Read more
-                </a>
-              )}
             </p>
 
             <ul className="text-sm text-gray-800 space-y-1 mb-4">
