@@ -13,7 +13,6 @@ type JikanAnime = {
 };
 
 let cachedAnime: JikanAnime[] | null = null;
-let inFlightRequest: Promise<JikanAnime[]> | null = null;
 
 async function fetchOnce(): Promise<JikanAnime[]> {
   const response = await fetch("https://api.jikan.moe/v4/top/anime", {
@@ -33,7 +32,7 @@ async function fetchOnce(): Promise<JikanAnime[]> {
   return data.data;
 }
 
-async function fetchWithRetries(): Promise<JikanAnime[]> {
+export async function getTopAnime(): Promise<JikanAnime[]> {
   const attempts = 3;
 
   for (let i = 0; i < attempts; i++) {
@@ -58,16 +57,4 @@ async function fetchWithRetries(): Promise<JikanAnime[]> {
   }
 
   return fallbackAnime as JikanAnime[];
-}
-
-export async function getTopAnime(): Promise<JikanAnime[]> {
-  if (inFlightRequest) {
-    return inFlightRequest;
-  }
-
-  inFlightRequest = fetchWithRetries().finally(() => {
-    inFlightRequest = null;
-  });
-
-  return inFlightRequest;
 }
