@@ -4,9 +4,8 @@ import { getTopAnime } from '../../lib/jikan';
 export async function GET() {
   try {
     const animeList = await getTopAnime();
-    const shuffled = [...animeList].sort(() => Math.random() - 0.5);
 
-    const trendingAnime = shuffled.slice(0, 4).map((anime) => ({
+    const trendingAnime = animeList.slice(0, 4).map((anime) => ({
       id: anime.mal_id,
       title: anime.title,
       image: anime.images.jpg.image_url,
