@@ -1,3 +1,5 @@
+import fallbackAnime from "./fallback-anime.json";
+
 type JikanAnime = {
   mal_id: number;
   title: string;
@@ -44,13 +46,15 @@ export async function getTopAnime(): Promise<JikanAnime[]> {
         await new Promise((resolve) => setTimeout(resolve, 500 * (i + 1)));
         continue;
       }
+      console.error("Jikan fetch failed after retries:", error);
       if (cachedAnime) {
-        console.error("Jikan fetch failed after retries, serving stale cache:", error);
+        console.error("Serving in-memory stale cache");
         return cachedAnime;
       }
-      throw error;
+      console.error("Serving static fallback data");
+      return fallbackAnime as JikanAnime[];
     }
   }
 
-  throw new Error("Unreachable");
+  return fallbackAnime as JikanAnime[];
 }
