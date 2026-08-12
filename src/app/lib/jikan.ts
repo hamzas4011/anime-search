@@ -15,7 +15,7 @@ type JikanAnime = {
 let cachedAnime: JikanAnime[] | null = null;
 
 async function fetchOnce(): Promise<JikanAnime[]> {
-  const response = await fetch("https://api.jikan.moe/v4/seasons/now?sfw", {
+  const response = await fetch("https://api.jikan.moe/v4/anime", {
     next: { revalidate: 21600 },
   });
 
