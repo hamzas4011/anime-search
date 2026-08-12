@@ -13,16 +13,23 @@ type JikanAnime = {
 
 export async function GET() {
   try {
-    const response = await fetch("https://api.jikan.moe/v4/top/anime");
+    const response = await fetch("https://api.jikan.moe/v4/top/anime", {
+      next: { revalidate: 3600 },
+    });
 
     if (!response.ok) {
-      throw new Error(`API Error: ${response.status}`);
+      console.error(`Jikan API returned ${response.status}`);
+      return NextResponse.json({ error: "Failed to fetch editor picks" }, { status: 502 });
     }
 
     const data = await response.json();
 
-    const shuffled = data.data.sort(() => Math.random() - 0.5);
+    if (!Array.isArray(data?.data)) {
+      console.error("Unexpected Jikan response shape:", data);
+      return NextResponse.json({ error: "Failed to fetch editor picks" }, { status: 502 });
+    }
 
+    const shuffled = data.data.sort(() => Math.random() - 0.5);
     const picks = (shuffled as JikanAnime[]).slice(0, 12).map((anime) => ({
       id: anime.mal_id,
       title: anime.title,
