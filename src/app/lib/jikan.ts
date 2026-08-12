@@ -16,8 +16,8 @@ let cachedAnime: JikanAnime[] | null = null;
 let lastFetchTime = 0;
 let inFlightRequest: Promise<JikanAnime[]> | null = null;
 
-const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
-const FETCH_TIMEOUT_MS = 4000; // fail fast instead of hanging
+const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
+const FETCH_TIMEOUT_MS = 4000;
 
 async function fetchOnce(): Promise<JikanAnime[]> {
   const controller = new AbortController();
@@ -26,6 +26,7 @@ async function fetchOnce(): Promise<JikanAnime[]> {
   try {
     const response = await fetch("https://api.jikan.moe/v4/top/anime", {
       signal: controller.signal,
+      next: { revalidate: 21600 },
     });
 
     if (!response.ok) {
