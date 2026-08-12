@@ -10,47 +10,47 @@ type JikanAnime = {
   };
 };
 
-const MAX_RETRIES = 3;
-const RETRYABLE_STATUS = new Set([429, 500, 502, 503, 504]);
+let cachedAnime: JikanAnime[] | null = null;
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+async function fetchOnce(): Promise<JikanAnime[]> {
+  const response = await fetch("https://api.jikan.moe/v4/top/anime", {
+    next: { revalidate: 21600 },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Jikan API returned ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (!Array.isArray(data?.data)) {
+    throw new Error("Unexpected Jikan response shape");
+  }
+
+  return data.data;
 }
 
 export async function getTopAnime(): Promise<JikanAnime[]> {
-  let lastError: Error = new Error("Jikan API request failed");
+  const attempts = 3;
 
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    if (attempt > 0) {
-      await sleep(2 ** attempt * 250);
-    }
-
-    let response: Response;
+  for (let i = 0; i < attempts; i++) {
     try {
-      response = await fetch("https://api.jikan.moe/v4/top/anime", {
-        next: { revalidate: 3600 },
-      } as RequestInit);
+      const result = await fetchOnce();
+      cachedAnime = result;
+      return result;
     } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-      continue;
-    }
-
-    if (!response.ok) {
-      lastError = new Error(`Jikan API returned ${response.status}`);
-      if (RETRYABLE_STATUS.has(response.status) && attempt < MAX_RETRIES) {
+      const isLastAttempt = i === attempts - 1;
+      if (!isLastAttempt) {
+        await new Promise((resolve) => setTimeout(resolve, 500 * (i + 1)));
         continue;
       }
-      throw lastError;
+      if (cachedAnime) {
+        console.error("Jikan fetch failed after retries, serving stale cache:", error);
+        return cachedAnime;
+      }
+      throw error;
     }
-
-    const data = await response.json();
-
-    if (!Array.isArray(data?.data)) {
-      throw new Error("Unexpected Jikan response shape");
-    }
-
-    return data.data;
   }
 
-  throw lastError;
+  throw new Error("Unreachable");
 }
