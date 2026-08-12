@@ -13,7 +13,7 @@ type JikanAnime = {
 export async function getTopAnime(): Promise<JikanAnime[]> {
   const response = await fetch("https://api.jikan.moe/v4/top/anime", {
     next: { revalidate: 3600 },
-  });
+  } as RequestInit);
 
   if (!response.ok) {
     throw new Error(`Jikan API returned ${response.status}`);
