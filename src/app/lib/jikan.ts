@@ -5,6 +5,7 @@ type JikanAnime = {
   title: string;
   synopsis: string;
   url: string;
+  episodes: number | null;
   images: {
     jpg: {
       image_url: string;
