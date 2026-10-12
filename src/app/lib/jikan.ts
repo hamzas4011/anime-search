@@ -20,7 +20,7 @@ let inFlightRequest: Promise<JikanAnime[]> | null = null;
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 const RETRY_AFTER_FAILURE_MS = 10 * 60 * 1000;
-const FETCH_TIMEOUT_MS = 10000;
+const FETCH_TIMEOUT_MS = 4000;
 
 async function fetchOnce(): Promise<JikanAnime[]> {
   const controller = new AbortController();
