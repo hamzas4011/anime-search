@@ -14,12 +14,11 @@ type JikanAnime = {
 };
 
 let cachedAnime: JikanAnime[] | null = null;
-let expiresAt = 0;
+let lastFetchTime = 0;
 let inFlightRequest: Promise<JikanAnime[]> | null = null;
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
-const FAILURE_TTL_MS = 10 * 60 * 1000;
-const FETCH_TIMEOUT_MS = 2500;
+const FETCH_TIMEOUT_MS = 4000;
 
 async function fetchOnce(): Promise<JikanAnime[]> {
   const controller = new AbortController();
@@ -37,7 +36,7 @@ async function fetchOnce(): Promise<JikanAnime[]> {
 
     const data = await response.json();
 
-    if (!Array.isArray(data?.data) || data.data.length === 0) {
+    if (!Array.isArray(data?.data)) {
       throw new Error("Unexpected Jikan response shape");
     }
 
@@ -47,37 +46,55 @@ async function fetchOnce(): Promise<JikanAnime[]> {
   }
 }
 
-async function refresh(): Promise<JikanAnime[]> {
-  try {
-    const result = await fetchOnce();
-    cachedAnime = result;
-    expiresAt = Date.now() + CACHE_TTL_MS;
-    return result;
-  } catch (error) {
-    console.error("Jikan fetch failed:", error);
-    if (!cachedAnime) {
-      cachedAnime = fallbackAnime as JikanAnime[];
+async function fetchWithRetries(): Promise<JikanAnime[]> {
+  const attempts = 2;
+
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const result = await fetchOnce();
+      cachedAnime = result;
+      lastFetchTime = Date.now();
+      return result;
+    } catch (error) {
+      const isLastAttempt = i === attempts - 1;
+      if (!isLastAttempt) {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        continue;
+      }
+      console.error("Jikan fetch failed after retries:", error);
+      if (cachedAnime) {
+        return cachedAnime;
+      }
+      return fallbackAnime as JikanAnime[];
     }
-    expiresAt = Date.now() + FAILURE_TTL_MS;
-    return cachedAnime;
   }
+
+  return fallbackAnime as JikanAnime[];
 }
 
 export async function getTopAnime(): Promise<JikanAnime[]> {
-  if (cachedAnime) {
-    if (Date.now() > expiresAt && !inFlightRequest) {
-      inFlightRequest = refresh().finally(() => {
+  const isStale = Date.now() - lastFetchTime > CACHE_TTL_MS;
+
+  if (cachedAnime && !isStale) {
+    return cachedAnime;
+  }
+
+  if (cachedAnime && isStale) {
+    if (!inFlightRequest) {
+      inFlightRequest = fetchWithRetries().finally(() => {
         inFlightRequest = null;
       });
     }
     return cachedAnime;
   }
 
-  if (!inFlightRequest) {
-    inFlightRequest = refresh().finally(() => {
-      inFlightRequest = null;
-    });
+  if (inFlightRequest) {
+    return inFlightRequest;
   }
+
+  inFlightRequest = fetchWithRetries().finally(() => {
+    inFlightRequest = null;
+  });
 
   return inFlightRequest;
 }
