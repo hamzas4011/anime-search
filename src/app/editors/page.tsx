@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { fetchTopAnime, shuffle } from "../lib/fetchAnime";
 
 interface Anime {
   id: number;
@@ -19,10 +20,15 @@ export default function EditorsPage() {
   useEffect(() => {
     const fetchPicks = async () => {
       try {
-        const res = await fetch("/api/editors", { cache: "no-store" });
-        if (!res.ok) throw new Error("Failed to load editor's picks");
-        const data: Anime[] = await res.json();
-        setPicks(data.slice(0, 12));
+        const animeList = await fetchTopAnime();
+        const data: Anime[] = shuffle(animeList).slice(0, 12).map((anime) => ({
+          id: anime.mal_id,
+          title: anime.title,
+          image: anime.images.jpg.image_url,
+          synopsis: anime.synopsis,
+          url: `https://myanimelist.net/anime/${anime.mal_id}`,
+        }));
+        setPicks(data);
       } catch {
         setError("Could not load editor’s picks.");
       } finally {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { fetchTopAnime } from "../lib/fetchAnime";
 
 interface Anime {
   mal_id: number;
@@ -25,10 +26,8 @@ export default function PopularPage() {
   useEffect(() => {
     const fetchPopularAnime = async () => {
       try {
-        const response = await fetch("/api/popular", { cache: "no-store" });
-        if (!response.ok) throw new Error("Failed to fetch");
-        const data: { data: Anime[] } = await response.json();
-        setPopularAnime(data.data.slice(0, 16));
+        const animeList = await fetchTopAnime();
+        setPopularAnime(animeList.slice(0, 16));
       } catch (err) {
         console.error("Error:", err);
         setError("Could not load popular anime.");
