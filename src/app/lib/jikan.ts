@@ -16,8 +16,20 @@ export type JikanAnime = {
 
 const JIKAN_TOP_URL = "https://api.jikan.moe/v4/top/anime";
 const REVALIDATE_SECONDS = 21600; // 6 timer
-const FETCH_TIMEOUT_MS = 15000;
-const RETRY_DELAY_MS = 500;
+const FETCH_TIMEOUT_MS = 8000;
+const RETRY_DELAY_MS = 1000;
+const RATE_LIMIT_DELAY_MS = 2000;
+
+class JikanHttpError extends Error {
+  constructor(public status: number) {
+    super(`Jikan API returned ${status}`);
+    this.name = "JikanHttpError";
+  }
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 async function fetchOnce(): Promise<JikanAnime[]> {
   const response = await fetch(JIKAN_TOP_URL, {
@@ -26,7 +38,7 @@ async function fetchOnce(): Promise<JikanAnime[]> {
   });
 
   if (!response.ok) {
-    throw new Error(`Jikan API returned ${response.status}`);
+    throw new JikanHttpError(response.status);
   }
 
   const data = await response.json();
@@ -35,18 +47,35 @@ async function fetchOnce(): Promise<JikanAnime[]> {
     throw new Error("Unexpected Jikan response shape");
   }
 
-  return data.data;
+  return data.data as JikanAnime[];
 }
 
-// Bruker Next sin data-cache (deles mellom alle Vercel-instanser),
-// i stedet for en in-memory-variabel som forsvinner ved kald start.
-// Jikan er en gratis, rate-begrenset API uten SLA, så vi prøver én gang til
-// før vi faller tilbake til de bufrede lokale dataene.
+function shouldRetry(error: unknown): boolean {
+  if (error instanceof JikanHttpError) {
+    // Retry on rate limit and server errors, not on other 4xx
+    return error.status === 429 || error.status >= 500;
+  }
+  // Timeouts, network errors, bad JSON
+  return true;
+}
+
+function retryDelay(error: unknown): number {
+  return error instanceof JikanHttpError && error.status === 429
+    ? RATE_LIMIT_DELAY_MS
+    : RETRY_DELAY_MS;
+}
+
 export async function getTopAnime(): Promise<JikanAnime[]> {
   try {
     return await fetchOnce();
-  } catch {
-    await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+  } catch (firstError) {
+    if (!shouldRetry(firstError)) {
+      console.error("Jikan fetch failed, using fallback:", firstError);
+      return fallbackAnime as JikanAnime[];
+    }
+
+    console.warn("Jikan first attempt failed, retrying:", firstError);
+    await sleep(retryDelay(firstError));
 
     try {
       return await fetchOnce();
