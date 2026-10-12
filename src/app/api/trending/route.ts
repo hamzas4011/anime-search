@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getTopAnime } from '../../lib/jikan';
-import { shuffle } from '../../lib/shuffle';
 
 export async function GET() {
   try {
     const animeList = await getTopAnime();
-    const trendingAnime = shuffle(animeList).slice(0, 4).map((anime) => ({
+    const shuffled = [...animeList].sort(() => Math.random() - 0.5);
+
+    const trendingAnime = shuffled.slice(0, 4).map((anime) => ({
       id: anime.mal_id,
       title: anime.title,
       image: anime.images.jpg.image_url,

@@ -1,11 +1,10 @@
 import fallbackAnime from "./fallback-anime.json";
 
-export type JikanAnime = {
+type JikanAnime = {
   mal_id: number;
   title: string;
   synopsis: string;
   url: string;
-  score?: number | null;
   episodes: number | null;
   images: {
     jpg: {
