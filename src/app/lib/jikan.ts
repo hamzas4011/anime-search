@@ -11,6 +11,7 @@ export type JikanAnime = {
   images: {
     jpg: {
       image_url: string;
+      small_image_url?: string; // smaller, faster image for cards
     };
   };
 };
@@ -21,6 +22,9 @@ const FETCH_TIMEOUT_MS = 2500;
 const RETRY_DELAY_MS = 300;
 const RATE_LIMIT_DELAY_MS = 1000;
 const FAILURE_COOLDOWN_MS = 60_000; // after a failure, don't call Jikan again for 1 min
+
+// During `next build` we want real data in the static page, so we wait for Jikan
+const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
 
 class JikanHttpError extends Error {
   constructor(public status: number) {
@@ -139,6 +143,12 @@ export async function getTopAnime(): Promise<JikanAnime[]> {
     return memoryCache.data;
   }
 
-  // No cache yet: only the very first request waits
-  return refresh();
+  // Build time: wait for real data so the static page isn't built with fallback
+  if (IS_BUILD) {
+    return refresh();
+  }
+
+  // Cold start at runtime: serve fallback instantly, fetch Jikan in the background
+  void refresh();
+  return fallbackAnime as JikanAnime[];
 }
