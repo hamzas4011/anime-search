@@ -16,9 +16,9 @@ export type JikanAnime = {
 
 const JIKAN_TOP_URL = "https://api.jikan.moe/v4/top/anime";
 const REVALIDATE_SECONDS = 21600; // 6 timer
-const FETCH_TIMEOUT_MS = 8000;
-const RETRY_DELAY_MS = 1000;
-const RATE_LIMIT_DELAY_MS = 2000;
+const FETCH_TIMEOUT_MS = 4000;
+const RETRY_DELAY_MS = 300;
+const RATE_LIMIT_DELAY_MS = 1000;
 
 class JikanHttpError extends Error {
   constructor(public status: number) {
