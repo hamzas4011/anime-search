@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getTopAnime } from '../../lib/jikan';
+export const maxDuration = 60;
 
 export async function GET() {
   try {
