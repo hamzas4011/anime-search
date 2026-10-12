@@ -1,161 +1,124 @@
-"use client";
+import fallbackAnime from "./fallback-anime.json";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-
-interface Anime {
+export type JikanAnime = {
   mal_id: number;
   title: string;
-  synopsis?: string;
-  score?: number;
-  episodes?: number;
+  synopsis: string;
+  url: string;
+  score?: number | null;
+  episodes: number | null;
   images: {
     jpg: {
       image_url: string;
     };
   };
+};
+
+const JIKAN_TOP_URL = "https://api.jikan.moe/v4/top/anime";
+const REVALIDATE_SECONDS = 21600; // 6 timer
+const FETCH_TIMEOUT_MS = 4000;
+const RETRY_DELAY_MS = 300;
+const RATE_LIMIT_DELAY_MS = 1000;
+
+class JikanHttpError extends Error {
+  constructor(public status: number) {
+    super(`Jikan API returned ${status}`);
+    this.name = "JikanHttpError";
+  }
 }
 
-export default function PopularPage() {
-  const [popularAnime, setPopularAnime] = useState<Anime[]>([]);
-  const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-  const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-  useEffect(() => {
-    const fetchPopularAnime = async () => {
-      try {
-        const response = await fetch("/api/popular");
-        if (!response.ok) throw new Error("Failed to fetch popular anime");
-        const { data } = await response.json();
-        setPopularAnime(data);
-      } catch (err) {
-        console.error("Error:", err);
-        setError("Could not load popular anime.");
-      } finally {
-        setLoading(false);
-      }
-    };
+// Short one-line description instead of dumping the whole DOMException
+function describeError(error: unknown): string {
+  if (error instanceof Error) {
+    return `${error.name}: ${error.message}`;
+  }
+  return String(error);
+}
 
-    fetchPopularAnime();
-  }, []);
+async function fetchOnce(): Promise<JikanAnime[]> {
+  const response = await fetch(JIKAN_TOP_URL, {
+    next: { revalidate: REVALIDATE_SECONDS },
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+  });
 
-  if (loading)
-    return <p className="text-center text-lg mt-10 text-white">Loading popular anime...</p>;
+  if (!response.ok) {
+    throw new JikanHttpError(response.status);
+  }
 
-  if (error)
-    return <p className="text-center text-red-500 mt-10">{error}</p>;
+  const data = await response.json();
 
-  return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-10">
-        🏆 Most Popular Anime of All Time
-      </h1>
+  if (!Array.isArray(data?.data) || data.data.length === 0) {
+    throw new Error("Unexpected Jikan response shape");
+  }
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {popularAnime.map((anime) => (
-          <motion.div
-            key={anime.mal_id}
-            onClick={() => setSelectedAnime(anime)}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-blue-400/30 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
-          >
-            <div className="relative w-full h-56">
-              <Image
-                src={anime.images.jpg.image_url}
-                alt={anime.title}
-                fill
-                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="p-4 space-y-2">
-              <h2 className="text-base font-bold truncate">{anime.title}</h2>
-              <p className="text-sm text-gray-300 leading-snug line-clamp-2">
-                {anime.synopsis ?? "No description available."}
-              </p>
-              <div className="flex justify-end text-sm text-white font-bold">
-                ⭐ {anime.score ?? "N/A"}
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+  return data.data as JikanAnime[];
+}
 
-      {selectedAnime && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedAnime(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="anime-title"
-        >
-          <motion.div
-            onClick={(e) => e.stopPropagation()}
-            className="bg-white text-black rounded-lg max-w-md w-full p-6 relative shadow-2xl pt-12"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <button
-              onClick={() => setSelectedAnime(null)}
-              className="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
-              aria-label="Close modal"
-            >
-              ×
-            </button>
+function shouldRetry(error: unknown): boolean {
+  if (error instanceof JikanHttpError) {
+    // Retry on rate limit and server errors, not on other 4xx
+    return error.status === 429 || error.status >= 500;
+  }
+  // Timeouts, network errors, bad JSON
+  return true;
+}
 
-            <div className="relative w-full h-56 mb-4">
-              <Image
-                src={selectedAnime.images.jpg.image_url}
-                alt={`Poster of ${selectedAnime.title}`}
-                fill
-                sizes="(min-width: 768px) 28rem, 100vw"
-                className="object-cover rounded-md"
-              />
-            </div>
+function retryDelay(error: unknown): number {
+  return error instanceof JikanHttpError && error.status === 429
+    ? RATE_LIMIT_DELAY_MS
+    : RETRY_DELAY_MS;
+}
 
-            <h2 id="anime-title" className="text-2xl font-bold mb-2">
-              {selectedAnime.title}
-            </h2>
+async function loadTopAnime(): Promise<JikanAnime[] | null> {
+  try {
+    return await fetchOnce();
+  } catch (firstError) {
+    if (!shouldRetry(firstError)) {
+      console.error(`Jikan fetch failed, using fallback (${describeError(firstError)})`);
+      return null;
+    }
 
-            <p className="text-gray-700 text-sm mb-4 leading-relaxed">
-              {selectedAnime.synopsis
-                ? `${selectedAnime.synopsis.slice(0, 200)}...`
-                : "No description available."}
-              {selectedAnime.synopsis && (
-                <a
-                  href={`https://myanimelist.net/anime/${selectedAnime.mal_id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ml-1 text-blue-600 hover:underline text-sm"
-                >
-                  Read more
-                </a>
-              )}
-            </p>
+    await sleep(retryDelay(firstError));
 
-            <ul className="text-sm text-gray-800 space-y-1 mb-4">
-              <li>
-                <strong>Episodes:</strong> {selectedAnime.episodes ?? "?"}
-              </li>
-              <li>
-                <strong>Score:</strong> {selectedAnime.score ?? "N/A"}
-              </li>
-            </ul>
+    try {
+      return await fetchOnce();
+    } catch (secondError) {
+      console.error(
+        `Jikan fetch failed after retry, using fallback (${describeError(firstError)} / ${describeError(secondError)})`
+      );
+      return null;
+    }
+  }
+}
 
-            <a
-              href={`https://myanimelist.net/anime/${selectedAnime.mal_id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-center bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              View on MyAnimeList
-            </a>
-          </motion.div>
-        </div>
-      )}
-    </div>
-  );
+// In-memory cache: concurrent calls share one request,
+// and a warm server instance answers instantly without calling Jikan.
+let memoryCache: { data: JikanAnime[]; expires: number } | null = null;
+let inFlight: Promise<JikanAnime[]> | null = null;
+
+export async function getTopAnime(): Promise<JikanAnime[]> {
+  if (memoryCache && memoryCache.expires > Date.now()) {
+    return memoryCache.data;
+  }
+
+  if (!inFlight) {
+    inFlight = loadTopAnime()
+      .then((data) => {
+        if (data) {
+          memoryCache = { data, expires: Date.now() + REVALIDATE_SECONDS * 1000 };
+          return data;
+        }
+        // Serve stale data if we have it, otherwise the fallback
+        return memoryCache?.data ?? (fallbackAnime as JikanAnime[]);
+      })
+      .finally(() => {
+        inFlight = null;
+      });
+  }
+
+  return inFlight;
 }
