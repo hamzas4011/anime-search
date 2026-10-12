@@ -31,6 +31,14 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Short one-line description instead of dumping the whole DOMException
+function describeError(error: unknown): string {
+  if (error instanceof Error) {
+    return `${error.name}: ${error.message}`;
+  }
+  return String(error);
+}
+
 async function fetchOnce(): Promise<JikanAnime[]> {
   const response = await fetch(JIKAN_TOP_URL, {
     next: { revalidate: REVALIDATE_SECONDS },
@@ -70,17 +78,18 @@ export async function getTopAnime(): Promise<JikanAnime[]> {
     return await fetchOnce();
   } catch (firstError) {
     if (!shouldRetry(firstError)) {
-      console.error("Jikan fetch failed, using fallback:", firstError);
+      console.error(`Jikan fetch failed, using fallback (${describeError(firstError)})`);
       return fallbackAnime as JikanAnime[];
     }
 
-    console.warn("Jikan first attempt failed, retrying:", firstError);
     await sleep(retryDelay(firstError));
 
     try {
       return await fetchOnce();
     } catch (secondError) {
-      console.error("Jikan fetch failed after retry, using fallback:", secondError);
+      console.error(
+        `Jikan fetch failed after retry, using fallback (${describeError(firstError)} / ${describeError(secondError)})`
+      );
       return fallbackAnime as JikanAnime[];
     }
   }
