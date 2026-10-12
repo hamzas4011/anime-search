@@ -1,3 +1,4 @@
+import { after } from "next/server";
 import fallbackAnime from "./fallback-anime.json";
 
 type JikanAnime = {
@@ -18,6 +19,7 @@ let lastFetchTime = 0;
 let inFlightRequest: Promise<JikanAnime[]> | null = null;
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
+const RETRY_AFTER_FAILURE_MS = 10 * 60 * 1000;
 const FETCH_TIMEOUT_MS = 4000;
 
 async function fetchOnce(): Promise<JikanAnime[]> {
@@ -62,6 +64,7 @@ async function fetchWithRetries(): Promise<JikanAnime[]> {
         continue;
       }
       console.error("Jikan fetch failed after retries:", error);
+      lastFetchTime = Date.now() - CACHE_TTL_MS + RETRY_AFTER_FAILURE_MS;
       if (cachedAnime) {
         return cachedAnime;
       }
@@ -75,26 +78,13 @@ async function fetchWithRetries(): Promise<JikanAnime[]> {
 export async function getTopAnime(): Promise<JikanAnime[]> {
   const isStale = Date.now() - lastFetchTime > CACHE_TTL_MS;
 
-  if (cachedAnime && !isStale) {
-    return cachedAnime;
+  if (isStale && !inFlightRequest) {
+    const request = fetchWithRetries().finally(() => {
+      inFlightRequest = null;
+    });
+    inFlightRequest = request;
+    after(() => request);
   }
 
-  if (cachedAnime && isStale) {
-    if (!inFlightRequest) {
-      inFlightRequest = fetchWithRetries().finally(() => {
-        inFlightRequest = null;
-      });
-    }
-    return cachedAnime;
-  }
-
-  if (inFlightRequest) {
-    return inFlightRequest;
-  }
-
-  inFlightRequest = fetchWithRetries().finally(() => {
-    inFlightRequest = null;
-  });
-
-  return inFlightRequest;
+  return cachedAnime ?? (fallbackAnime as JikanAnime[]);
 }
