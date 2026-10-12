@@ -1,49 +1,26 @@
-"use client";
+import Image from "next/image";
+import { getTopAnime } from "../lib/jikan";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { fetchTopAnime, shuffle } from "../lib/fetchAnime";
+// Siden bygges på serveren og caches i 6 timer (ISR).
+// Nettleseren kaller aldri Jikan selv, så siden vises umiddelbart.
+export const revalidate = 21600;
 
-interface Anime {
-  id: number;
-  title: string;
-  image: string;
-  synopsis: string;
-  url: string;
+function shuffle<T>(list: T[]): T[] {
+  return [...list].sort(() => Math.random() - 0.5);
 }
 
-export default function EditorsPage() {
-  const [picks, setPicks] = useState<Anime[]>([]);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+export default async function EditorsPage() {
+  const animeList = await getTopAnime();
 
-  useEffect(() => {
-    const fetchPicks = async () => {
-      try {
-        const animeList = await fetchTopAnime();
-        const data: Anime[] = shuffle(animeList).slice(0, 12).map((anime) => ({
-          id: anime.mal_id,
-          title: anime.title,
-          image: anime.images.jpg.image_url,
-          synopsis: anime.synopsis,
-          url: `https://myanimelist.net/anime/${anime.mal_id}`,
-        }));
-        setPicks(data);
-      } catch {
-        setError("Could not load editor’s picks.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPicks();
-  }, []);
-
-  if (loading)
-    return <p className="text-center text-lg mt-10 text-white">Loading editor’s picks...</p>;
-
-  if (error)
-    return <p className="text-center text-red-500 mt-10">{error}</p>;
+  const picks = shuffle(animeList)
+    .slice(0, 12)
+    .map((anime) => ({
+      id: anime.mal_id,
+      title: anime.title,
+      image: anime.images.jpg.image_url,
+      synopsis: anime.synopsis,
+      url: `https://myanimelist.net/anime/${anime.mal_id}`,
+    }));
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -53,18 +30,19 @@ export default function EditorsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {picks.map((anime, index) => (
-          <motion.article
+          <article
             key={anime.id}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-gray-800 border border-gray-700 rounded-xl shadow-md hover:shadow-blue-400/30 transition overflow-hidden flex flex-col cursor-pointer"
-            tabIndex={0}
+            className="bg-gray-800 border border-gray-700 rounded-xl shadow-md hover:shadow-blue-400/30 hover:scale-[1.03] active:scale-[0.98] transition overflow-hidden flex flex-col"
             aria-labelledby={`anime-title-${index}`}
             aria-describedby={`anime-desc-${index}`}
           >
-            <img
+            <Image
               src={anime.image}
               alt={`Cover for ${anime.title}`}
+              width={400}
+              height={560}
+              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+              preload={index < 4}
               className="w-full h-56 object-cover"
             />
 
@@ -98,7 +76,7 @@ export default function EditorsPage() {
                 View More
               </a>
             </div>
-          </motion.article>
+          </article>
         ))}
       </div>
     </div>

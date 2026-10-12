@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { fetchTopAnime, shuffle } from "./lib/fetchAnime";
 
 interface Anime {
   id: number;
@@ -21,14 +20,9 @@ export default function Home() {
   useEffect(() => {
     const fetchTrendingAnime = async () => {
       try {
-        const animeList = await fetchTopAnime();
-        const data: Anime[] = shuffle(animeList).slice(0, 4).map((anime) => ({
-          id: anime.mal_id,
-          title: anime.title,
-          image: anime.images.jpg.image_url,
-          synopsis: anime.synopsis,
-          url: anime.url,
-        }));
+        const response = await fetch("/api/trending");
+        if (!response.ok) throw new Error("Failed to fetch trending anime");
+        const data: Anime[] = await response.json();
         setTrendingAnime(data);
       } catch {
         setErrorTrending("Could not load trending anime.");

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { fetchTopAnime } from "../lib/fetchAnime";
 
 interface Anime {
   mal_id: number;
@@ -26,8 +26,10 @@ export default function PopularPage() {
   useEffect(() => {
     const fetchPopularAnime = async () => {
       try {
-        const animeList = await fetchTopAnime();
-        setPopularAnime(animeList.slice(0, 16));
+        const response = await fetch("/api/popular");
+        if (!response.ok) throw new Error("Failed to fetch popular anime");
+        const { data } = await response.json();
+        setPopularAnime(data);
       } catch (err) {
         console.error("Error:", err);
         setError("Could not load popular anime.");
@@ -60,11 +62,15 @@ export default function PopularPage() {
             whileTap={{ scale: 0.98 }}
             className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-blue-400/30 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
           >
-            <img
-              src={anime.images.jpg.image_url}
-              alt={anime.title}
-              className="w-full h-56 object-cover"
-            />
+            <div className="relative w-full h-56">
+              <Image
+                src={anime.images.jpg.image_url}
+                alt={anime.title}
+                fill
+                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
             <div className="p-4 space-y-2">
               <h2 className="text-base font-bold truncate">{anime.title}</h2>
               <p className="text-sm text-gray-300 leading-snug line-clamp-2">
@@ -100,11 +106,15 @@ export default function PopularPage() {
               ×
             </button>
 
-            <img
-              src={selectedAnime.images.jpg.image_url}
-              alt={`Poster of ${selectedAnime.title}`}
-              className="w-full h-56 object-cover rounded-md mb-4"
-            />
+            <div className="relative w-full h-56 mb-4">
+              <Image
+                src={selectedAnime.images.jpg.image_url}
+                alt={`Poster of ${selectedAnime.title}`}
+                fill
+                sizes="(min-width: 768px) 28rem, 100vw"
+                className="object-cover rounded-md"
+              />
+            </div>
 
             <h2 id="anime-title" className="text-2xl font-bold mb-2">
               {selectedAnime.title}
