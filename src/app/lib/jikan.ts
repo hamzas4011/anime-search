@@ -16,8 +16,8 @@ export type JikanAnime = {
 };
 
 const JIKAN_TOP_URL = "https://api.jikan.moe/v4/top/anime";
-const REVALIDATE_SECONDS = 21600; // 6 timer
-const FETCH_TIMEOUT_MS = 4000;
+const REVALIDATE_SECONDS = 21600; // 6 hours
+const FETCH_TIMEOUT_MS = 2500;
 const RETRY_DELAY_MS = 300;
 const RATE_LIMIT_DELAY_MS = 1000;
 const FAILURE_COOLDOWN_MS = 60_000; // after a failure, don't call Jikan again for 1 min
@@ -60,12 +60,18 @@ async function fetchOnce(): Promise<JikanAnime[]> {
   return data.data as JikanAnime[];
 }
 
+function isTimeout(error: unknown): boolean {
+  return error instanceof Error && error.name === "TimeoutError";
+}
+
 function shouldRetry(error: unknown): boolean {
   if (error instanceof JikanHttpError) {
     // Retry on rate limit and server errors, not on other 4xx
     return error.status === 429 || error.status >= 500;
   }
-  // Timeouts, network errors, bad JSON
+  // A timeout means Jikan is slow, so retrying just doubles the wait
+  if (isTimeout(error)) return false;
+  // Network errors, bad JSON
   return true;
 }
 
@@ -102,11 +108,7 @@ async function loadTopAnime(): Promise<JikanAnime[] | null> {
 let memoryCache: { data: JikanAnime[]; expires: number } | null = null;
 let inFlight: Promise<JikanAnime[]> | null = null;
 
-export async function getTopAnime(): Promise<JikanAnime[]> {
-  if (memoryCache && memoryCache.expires > Date.now()) {
-    return memoryCache.data;
-  }
-
+function refresh(): Promise<JikanAnime[]> {
   if (!inFlight) {
     inFlight = loadTopAnime()
       .then((data) => {
@@ -122,6 +124,21 @@ export async function getTopAnime(): Promise<JikanAnime[]> {
         inFlight = null;
       });
   }
-
   return inFlight;
+}
+
+export async function getTopAnime(): Promise<JikanAnime[]> {
+  // Fresh cache: answer instantly
+  if (memoryCache && memoryCache.expires > Date.now()) {
+    return memoryCache.data;
+  }
+
+  // Stale cache: return old data now, refresh in the background
+  if (memoryCache) {
+    void refresh();
+    return memoryCache.data;
+  }
+
+  // No cache yet: only the very first request waits
+  return refresh();
 }
