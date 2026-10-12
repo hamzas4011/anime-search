@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { getTopAnime } from "../lib/jikan";
 
-// Siden bygges på serveren og caches i 6 timer (ISR).
-// Nettleseren kaller aldri Jikan selv, så siden vises umiddelbart.
 export const revalidate = 21600;
 
 function shuffle<T>(list: T[]): T[] {
