@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "AnimeExplorer",
+  description: "Discover trending and popular anime, or let AI pick your next watch.",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

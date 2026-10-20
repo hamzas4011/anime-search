@@ -41,6 +41,15 @@ export default function PopularPage() {
     fetchPopularAnime();
   }, []);
 
+  useEffect(() => {
+    if (!selectedAnime) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedAnime(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedAnime]);
+
   if (loading)
     return <p className="text-center text-lg mt-10 text-white">Loading popular anime...</p>;
 
@@ -48,8 +57,8 @@ export default function PopularPage() {
     return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-10">
+    <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-6 sm:mb-10">
         🏆 Most Popular Anime of All Time
       </h1>
 
@@ -58,6 +67,15 @@ export default function PopularPage() {
           <motion.div
             key={anime.mal_id}
             onClick={() => setSelectedAnime(anime)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setSelectedAnime(anime);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={`Show details for ${anime.title}`}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
             className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-blue-400/30 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
@@ -94,7 +112,7 @@ export default function PopularPage() {
         >
           <motion.div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white text-black rounded-lg max-w-md w-full p-6 relative shadow-2xl pt-12"
+            className="bg-white text-black rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl pt-12"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
           >

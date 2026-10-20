@@ -35,7 +35,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="bg-gray-900 text-white">
+    <div className="bg-gray-900 text-white">
       <section className="flex flex-col items-center justify-center text-center min-h-[20vh] px-6 pt-6 pb-2">
         <h1 className="text-4xl md:text-5xl font-bold">AnimeExplorer</h1>
         <p className="mt-2 text-lg text-gray-400">
@@ -72,10 +72,14 @@ export default function Home() {
                 <p className="text-xs text-gray-300 mt-1 line-clamp-2">
                   {anime.synopsis}
                 </p>
-                <Link href={anime.url} target="_blank">
-                  <button className="mt-3 w-full py-2 text-xs bg-blue-600 hover:bg-blue-700 rounded-md text-white transition">
-                    More Info
-                  </button>
+                <Link
+                  href={anime.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`More info about ${anime.title} (opens in a new tab)`}
+                  className="block mt-3 w-full py-3 text-sm text-center bg-blue-600 hover:bg-blue-700 rounded-md text-white transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+                >
+                  More Info
                 </Link>
               </div>
             </div>
@@ -107,10 +111,12 @@ export default function Home() {
             <Link
               href="https://myanimelist.net/anime/genre/1/Action"
               target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              <p className="mt-3 text-sm text-blue-400 hover:underline">
+              <span className="block mt-3 py-1 text-sm text-blue-400 hover:underline">
                 Explore Action Anime →
-              </p>
+              </span>
             </Link>
           </div>
 
@@ -133,10 +139,12 @@ export default function Home() {
             <Link
               href="https://myanimelist.net/anime/genre/22/Romance"
               target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              <p className="mt-3 text-sm text-pink-400 hover:underline">
+              <span className="block mt-3 py-1 text-sm text-pink-400 hover:underline">
                 Explore Romance Anime →
-              </p>
+              </span>
             </Link>
           </div>
 
@@ -159,10 +167,12 @@ export default function Home() {
             <Link
               href="https://myanimelist.net/anime/genre/4/Comedy"
               target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              <p className="mt-3 text-sm text-yellow-300 hover:underline">
+              <span className="block mt-3 py-1 text-sm text-yellow-300 hover:underline">
                 Explore Comedy Anime →
-              </p>
+              </span>
             </Link>
           </div>
 
@@ -187,14 +197,16 @@ export default function Home() {
             <Link
               href="https://myanimelist.net/anime/genre/40/Psychological"
               target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              <p className="mt-3 text-sm text-purple-400 hover:underline">
+              <span className="block mt-3 py-1 text-sm text-purple-400 hover:underline">
                 Explore Psychological Anime →
-              </p>
+              </span>
             </Link>
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

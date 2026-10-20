@@ -21,8 +21,8 @@ export default async function EditorsPage() {
     }));
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-10">
+    <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-6 sm:mb-10">
         🎯 Top 12 Editor’s Picks
       </h1>
 
