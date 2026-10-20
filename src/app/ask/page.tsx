@@ -118,7 +118,8 @@ export default function AskPage() {
                         alt=""
                         width={96}
                         height={136}
-                        className="w-20 sm:w-24 h-auto object-cover"
+                        style={{ height: "auto" }}
+                        className="w-20 sm:w-24 object-cover"
                       />
                     </a>
                   )}
