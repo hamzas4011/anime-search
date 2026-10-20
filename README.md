@@ -21,24 +21,6 @@ A modern, accessible web app for discovering anime, built with **Next.js**, **Ty
 - **Claude API** (Anthropic) for AI recommendations
 - **AniList API** for covers and MyAnimeList links in AI Picks
 
-## 🚀 Getting Started
-
-```bash
-npm install
-```
-
-Create a `.env.local` file in the project root with your [Anthropic API key](https://console.anthropic.com):
-
-```
-ANTHROPIC_API_KEY=your-key-here
-```
-
-Then start the dev server and open http://localhost:3000:
-
-```bash
-npm run dev
-```
-
 ## 🌐 Live Demo
 
 [🔗 View the Website](https://anime-search-explore.vercel.app)
