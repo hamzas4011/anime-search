@@ -65,7 +65,7 @@ export default function Home() {
                 alt={anime.title}
                 width={400}
                 height={250}
-                preload={index < 4}
+                loading={index < 4 ? "eager" : "lazy"}
                 className="w-full h-56 object-cover"
               />
               <div className="p-4">
