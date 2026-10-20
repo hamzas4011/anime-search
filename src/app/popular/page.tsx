@@ -62,7 +62,7 @@ export default function PopularPage() {
         🏆 Most Popular Anime of All Time
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {popularAnime.map((anime) => (
           <motion.div
             key={anime.mal_id}
@@ -78,14 +78,14 @@ export default function PopularPage() {
             aria-label={`Show details for ${anime.title}`}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-blue-400/30 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
+            className="bg-gray-800 rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-blue-400/30 border border-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 transition duration-300"
           >
             <div className="relative w-full h-56">
               <Image
                 src={anime.images.jpg.image_url}
                 alt={anime.title}
                 fill
-                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover"
               />
             </div>
@@ -118,7 +118,7 @@ export default function PopularPage() {
           >
             <button
               onClick={() => setSelectedAnime(null)}
-              className="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+              className="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
               aria-label="Close modal"
             >
               ×
@@ -167,7 +167,7 @@ export default function PopularPage() {
               href={`https://myanimelist.net/anime/${selectedAnime.mal_id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="block w-full text-center bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded hover:bg-blue-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               View on MyAnimeList
             </a>

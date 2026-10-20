@@ -68,7 +68,7 @@ export default async function EditorsPage() {
                 href={anime.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-sm font-semibold py-2 px-4 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-400 mt-auto"
+                className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-sm font-semibold py-2 px-4 rounded transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 mt-auto"
                 aria-label={`View more about ${anime.title}`}
               >
                 View More

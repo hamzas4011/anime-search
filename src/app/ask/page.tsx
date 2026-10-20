@@ -74,12 +74,12 @@ export default function AskPage() {
             maxLength={200}
             aria-describedby="question-hint"
             placeholder="e.g. dark fantasy with a strong main character"
-            className="flex-grow bg-gray-800 border border-gray-700 rounded px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="flex-grow bg-gray-800 border border-gray-700 rounded px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           />
           <button
             type="submit"
             disabled={loading || !question.trim()}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-sm font-semibold py-2 px-6 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-sm font-semibold py-2 px-6 rounded transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           >
             {loading ? "Thinking..." : "Ask"}
           </button>
@@ -133,7 +133,7 @@ export default function AskPage() {
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-blue-300 hover:underline rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="hover:text-blue-300 hover:underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                       >
                         {rec.title}
                         <span className="sr-only"> (opens in a new tab)</span>
@@ -151,7 +151,7 @@ export default function AskPage() {
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block mt-3 text-sm text-blue-400 hover:text-blue-300 underline rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="inline-block mt-3 text-sm text-blue-400 hover:text-blue-300 underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                     >
                       {rec.url ? "View on MyAnimeList ↗" : "Search on MyAnimeList ↗"}
                       <span className="sr-only"> (opens in a new tab)</span>

@@ -77,7 +77,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`More info about ${anime.title} (opens in a new tab)`}
-                  className="block mt-3 w-full py-3 text-sm text-center bg-blue-600 hover:bg-blue-700 rounded-md text-white transition focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="block mt-3 w-full py-3 text-sm text-center bg-blue-600 hover:bg-blue-700 rounded-md text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                 >
                   More Info
                 </Link>
@@ -91,7 +91,7 @@ export default function Home() {
         <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">
           🎭 Top Anime by Genre
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-gray-800 border-l-4 border-blue-500 p-6 rounded-lg shadow-md hover:bg-gray-700 transition duration-300">
             <h3 className="text-xl font-bold text-blue-400 mb-1">💥 Action</h3>
             <p className="text-sm text-gray-400 mb-3">
@@ -112,7 +112,7 @@ export default function Home() {
               href="https://myanimelist.net/anime/genre/1/Action"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="inline-block rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <span className="block mt-3 py-1 text-sm text-blue-400 hover:underline">
                 Explore Action Anime →
@@ -140,7 +140,7 @@ export default function Home() {
               href="https://myanimelist.net/anime/genre/22/Romance"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="inline-block rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <span className="block mt-3 py-1 text-sm text-pink-400 hover:underline">
                 Explore Romance Anime →
@@ -168,7 +168,7 @@ export default function Home() {
               href="https://myanimelist.net/anime/genre/4/Comedy"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="inline-block rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <span className="block mt-3 py-1 text-sm text-yellow-300 hover:underline">
                 Explore Comedy Anime →
@@ -198,7 +198,7 @@ export default function Home() {
               href="https://myanimelist.net/anime/genre/40/Psychological"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="inline-block rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <span className="block mt-3 py-1 text-sm text-purple-400 hover:underline">
                 Explore Psychological Anime →

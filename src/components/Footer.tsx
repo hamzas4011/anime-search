@@ -10,21 +10,15 @@ const Footer = () => {
             <p className="text-sm text-gray-400">Your go-to place for anime reviews and updates.</p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-            <span className="text-base text-white">Contact</span>
-            <span className="text-base text-white">Privacy Policy</span>
-            <span className="text-base text-white">Terms of Service</span>
-          </div>
+          <p className="text-sm text-gray-400">
+            © {new Date().getFullYear()} AnimeExplorer. All rights reserved.
+          </p>
 
           <div className="flex space-x-4" aria-hidden="true">
             <FaFacebook size={24} className="text-blue-500" />
             <FaTwitter size={24} className="text-blue-400" />
             <FaInstagram size={24} className="text-pink-500" />
           </div>
-        </div>
-
-        <div className="text-center text-gray-500 text-sm mt-6">
-          © {new Date().getFullYear()} AnimeExplorer. All rights reserved.
         </div>
       </div>
     </footer>

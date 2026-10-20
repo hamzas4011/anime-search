@@ -29,7 +29,7 @@ const Navbar = () => {
         <Link
           href="/"
           onClick={() => setIsOpen(false)}
-          className="text-2xl md:text-3xl font-bold tracking-wide text-white hover:text-gray-300 transition rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="text-2xl md:text-3xl font-bold tracking-wide text-white hover:text-gray-300 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
         >
           AnimeExplorer
         </Link>
@@ -40,7 +40,7 @@ const Navbar = () => {
           aria-expanded={isOpen}
           aria-controls="main-menu"
           aria-label={isOpen ? "Close menu" : "Open menu"}
-          className="md:hidden flex items-center justify-center w-11 h-11 text-2xl text-white rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="md:hidden flex items-center justify-center w-11 h-11 text-2xl text-white rounded hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
         >
           <span aria-hidden="true">{isOpen ? "✕" : "☰"}</span>
         </button>
@@ -57,7 +57,7 @@ const Navbar = () => {
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   aria-current={active ? "page" : undefined}
-                  className={`block text-lg font-medium px-4 py-3 md:py-2 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                  className={`block text-lg font-medium px-4 py-3 md:py-2 rounded transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
                     active ? "text-blue-400" : "hover:text-gray-300 hover:bg-gray-800 md:hover:bg-transparent"
                   }`}
                 >
