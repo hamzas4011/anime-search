@@ -9,6 +9,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "framer-motion": "^12.6.2",
     "next": "^16.3.0",
