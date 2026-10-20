@@ -125,23 +125,19 @@ function refresh(): Promise<JikanAnime[]> {
 }
 
 export async function getTopAnime(): Promise<JikanAnime[]> {
-  // Fresh cache: answer instantly
   if (memoryCache && memoryCache.expires > Date.now()) {
     return memoryCache.data;
   }
 
-  // Stale cache: return old data now, refresh in the background
   if (memoryCache) {
     void refresh();
     return memoryCache.data;
   }
 
-  // Build time: wait for real data so the static page isn't built with fallback
   if (IS_BUILD) {
     return refresh();
   }
 
-  // Cold start at runtime: serve fallback instantly, fetch Jikan in the background
   void refresh();
   return fallbackAnime as JikanAnime[];
 }
