@@ -11,6 +11,12 @@ type Recommendation = {
   url: string | null;
 };
 
+const EXAMPLES = [
+  "Something like Attack on Titan",
+  "Short anime under 13 episodes",
+  "Something funny",
+];
+
 function malSearchUrl(title: string) {
   return `https://myanimelist.net/anime.php?q=${encodeURIComponent(title)}`;
 }
@@ -47,7 +53,7 @@ export default function AskPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-6">
+    <div className="bg-gray-900 text-white p-4 sm:p-6">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-3">
           🤖 Find Your Next Anime
@@ -61,12 +67,11 @@ export default function AskPage() {
             e.preventDefault();
             ask(question);
           }}
-          className="flex flex-col sm:flex-row gap-3"
+          className="flex flex-col gap-3"
         >
-          <label htmlFor="question" className="sr-only">
+          <label htmlFor="question" className="text-sm font-medium text-gray-300">
             What do you want to watch?
           </label>
-          {/* Textarea so text wraps on mobile; on sm+ it is styled to behave like a single-line input */}
           <textarea
             id="question"
             rows={3}
@@ -82,21 +87,54 @@ export default function AskPage() {
             enterKeyHint="send"
             aria-describedby="question-hint"
             placeholder="e.g. dark fantasy with a strong main character"
-            className="flex-grow resize-none bg-gray-800 border border-gray-700 rounded px-4 py-3 text-base leading-6 text-white placeholder-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 sm:py-2 sm:h-[42px] sm:whitespace-pre sm:overflow-hidden"
+            className="resize-none bg-gray-800 border border-gray-700 rounded px-4 py-3 text-base leading-6 text-white placeholder-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           />
           <button
             type="submit"
             disabled={loading || !question.trim()}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-base sm:text-sm font-semibold py-3 sm:py-2 px-6 rounded transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-base font-semibold py-3 px-6 rounded transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           >
             {loading ? "Thinking..." : "Ask"}
           </button>
         </form>
-        <p id="question-hint" className="text-sm sm:text-xs text-gray-400 mt-2">
+        <p id="question-hint" className="text-sm text-gray-400 mt-2">
           Up to 5 picks per question · max 200 characters
         </p>
 
-        <div aria-live="polite" className="mt-8">
+        {!loading && !answer && !error && recommendations.length === 0 && (
+          <section aria-labelledby="examples-heading" className="mt-8">
+            <h2 id="examples-heading" className="text-sm font-medium text-gray-300 mb-3">
+              Not sure what to ask? Try one:
+            </h2>
+            <ul className="flex flex-col gap-3">
+              {EXAMPLES.map((example) => (
+                <li key={example}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setQuestion(example);
+                      ask(example);
+                    }}
+                    className="w-full text-left min-h-12 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-full px-4 py-3 text-base text-gray-200 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                  >
+                    {example}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Short status for screen readers; the results themselves are not announced */}
+        <p role="status" className={loading ? "mt-8 text-gray-300" : "sr-only"}>
+          {loading
+            ? "Finding your picks…"
+            : recommendations.length > 0
+              ? `Found ${recommendations.length} ${recommendations.length === 1 ? "pick" : "picks"}`
+              : ""}
+        </p>
+
+        <div className="mt-8">
           {error && (
             <p role="alert" className="text-red-400 bg-gray-800 border border-red-900 rounded-xl p-4">
               {error}
