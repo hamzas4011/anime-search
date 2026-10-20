@@ -27,7 +27,7 @@ const Navbar = () => {
             Editors Pick
           </Link>
           <Link href="/ask" className="block md:inline-block text-lg font-medium hover:text-gray-300 transition px-4 py-2">
-            Find Anime
+            <span aria-hidden="true">🤖 </span>AI Picks
           </Link>
         </div>
       </div>
