@@ -66,25 +66,33 @@ export default function AskPage() {
           <label htmlFor="question" className="sr-only">
             What do you want to watch?
           </label>
-          <input
+          {/* Textarea so text wraps on mobile; on sm+ it is styled to behave like a single-line input */}
+          <textarea
             id="question"
-            type="text"
+            rows={3}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                ask(question);
+              }
+            }}
             maxLength={200}
+            enterKeyHint="send"
             aria-describedby="question-hint"
             placeholder="e.g. dark fantasy with a strong main character"
-            className="flex-grow bg-gray-800 border border-gray-700 rounded px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            className="flex-grow resize-none bg-gray-800 border border-gray-700 rounded px-4 py-3 text-base leading-6 text-white placeholder-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 sm:py-2 sm:h-[42px] sm:whitespace-pre sm:overflow-hidden"
           />
           <button
             type="submit"
             disabled={loading || !question.trim()}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-sm font-semibold py-2 px-6 rounded transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-base sm:text-sm font-semibold py-3 sm:py-2 px-6 rounded transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           >
             {loading ? "Thinking..." : "Ask"}
           </button>
         </form>
-        <p id="question-hint" className="text-xs text-gray-400 mt-2">
+        <p id="question-hint" className="text-sm sm:text-xs text-gray-400 mt-2">
           Up to 5 picks per question · max 200 characters
         </p>
 

@@ -47,7 +47,11 @@ const Navbar = () => {
 
         <ul
           id="main-menu"
-          className={`${isOpen ? "block" : "hidden"} md:flex md:gap-4 lg:gap-8 absolute md:static top-full left-0 w-full md:w-auto bg-gray-950 border-b border-gray-800 md:border-0 shadow-lg md:shadow-none p-2 md:p-0`}
+          className={`md:flex md:gap-4 lg:gap-8 max-md:absolute max-md:top-full max-md:inset-x-4 max-md:mt-2 max-md:rounded-xl max-md:border max-md:border-gray-800 max-md:bg-gray-950 max-md:shadow-lg max-md:p-2 max-md:transition-all max-md:duration-300 max-md:ease-out motion-reduce:transition-none ${
+            isOpen
+              ? "max-md:visible max-md:opacity-100 max-md:translate-y-0"
+              : "max-md:invisible max-md:opacity-0 max-md:-translate-y-4"
+          }`}
         >
           {LINKS.map((link) => {
             const active = pathname === link.href;
