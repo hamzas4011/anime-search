@@ -2,11 +2,12 @@
 
 A modern, accessible web app for discovering anime, built with **Next.js**, **TypeScript** and **Tailwind CSS**. Browse trending and popular anime, or let AI pick your next watch. 🎌📺
 
-![AnimeExplorer Preview](https://github.com/user-attachments/assets/afc732d4-2eb6-4b7b-99bf-35f6dd7afdf9)
+![AnimeExplorer home page](public/preview.png)
 
 ## 🎯 Features
 
-- 🔥 **Trending** – The current top anime, with genre shortcuts for Action, Romance and Comedy.
+- 🔥 **Trending** – Top anime on the home page.
+- 🎭 **Top Anime by Genre** – Action, Romance, Comedy and Psychological picks.
 - 🏆 **Popular** – The most popular anime of all time.
 - 🎯 **Editor's Picks** – A hand-picked top 12.
 - 🤖 **AI Picks** – Name an anime you like, a genre or a mood, and Claude AI recommends anime with covers, scores and direct MyAnimeList links.
