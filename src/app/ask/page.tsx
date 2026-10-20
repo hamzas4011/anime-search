@@ -106,7 +106,7 @@ export default function AskPage() {
             <h2 id="examples-heading" className="text-sm font-medium text-gray-300 mb-3">
               Not sure what to ask? Try one:
             </h2>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-wrap gap-2">
               {EXAMPLES.map((example) => (
                 <li key={example}>
                   <button
@@ -115,7 +115,7 @@ export default function AskPage() {
                       setQuestion(example);
                       ask(example);
                     }}
-                    className="w-full text-left min-h-12 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-full px-4 py-3 text-base text-gray-200 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                    className="min-h-11 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-full px-4 py-2 text-sm text-gray-200 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                   >
                     {example}
                   </button>
@@ -141,13 +141,13 @@ export default function AskPage() {
             </p>
           )}
           {answer && (
-            <div className="bg-gray-800 border border-gray-700 rounded-xl p-5 whitespace-pre-wrap leading-relaxed text-gray-200">
+            <div className="whitespace-pre-wrap leading-relaxed text-gray-200">
               {answer}
             </div>
           )}
           {recommendations.length > 0 && (
             <ul className="mt-4 space-y-4">
-              {recommendations.map((rec) => {
+              {recommendations.map((rec, index) => {
                 const link = rec.url ?? malSearchUrl(rec.title);
                 return (
                 <li
@@ -168,6 +168,7 @@ export default function AskPage() {
                         alt=""
                         width={96}
                         height={136}
+                        loading={index === 0 ? "eager" : "lazy"}
                         style={{ height: "auto" }}
                         className="w-20 sm:w-24 object-cover"
                       />

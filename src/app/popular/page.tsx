@@ -63,7 +63,7 @@ export default function PopularPage() {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {popularAnime.map((anime) => (
+        {popularAnime.map((anime, index) => (
           <motion.div
             key={anime.mal_id}
             onClick={() => setSelectedAnime(anime)}
@@ -86,6 +86,7 @@ export default function PopularPage() {
                 alt={anime.title}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                preload={index < 4}
                 className="object-cover"
               />
             </div>

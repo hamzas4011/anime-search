@@ -55,7 +55,7 @@ export default function Home() {
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {trendingAnime.map((anime) => (
+          {trendingAnime.map((anime, index) => (
             <div
               key={anime.id}
               className="bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300"
@@ -65,6 +65,7 @@ export default function Home() {
                 alt={anime.title}
                 width={400}
                 height={250}
+                preload={index < 4}
                 className="w-full h-56 object-cover"
               />
               <div className="p-4">
