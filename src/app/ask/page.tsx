@@ -14,7 +14,7 @@ type Recommendation = {
 const EXAMPLES = [
   "Something like Attack on Titan",
   "Short anime under 13 episodes",
-  "Something funny",
+  "Funny anime",
 ];
 
 function malSearchUrl(title: string) {
