@@ -1,4 +1,4 @@
-import "server-only"; // Never runs in the browser – build fails if a client component imports this
+import "server-only"; 
 import fallbackAnime from "./fallback-anime.json";
 
 export type JikanAnime = {
@@ -11,19 +11,18 @@ export type JikanAnime = {
   images: {
     jpg: {
       image_url: string;
-      small_image_url?: string; // smaller, faster image for cards
+      small_image_url?: string;
     };
   };
 };
 
 const JIKAN_TOP_URL = "https://api.jikan.moe/v4/top/anime";
-const REVALIDATE_SECONDS = 21600; // 6 hours
+const REVALIDATE_SECONDS = 21600;
 const FETCH_TIMEOUT_MS = 2500;
 const RETRY_DELAY_MS = 300;
 const RATE_LIMIT_DELAY_MS = 1000;
-const FAILURE_COOLDOWN_MS = 60_000; // after a failure, don't call Jikan again for 1 min
+const FAILURE_COOLDOWN_MS = 60_000; 
 
-// During `next build` we want real data in the static page, so we wait for Jikan
 const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
 
 class JikanHttpError extends Error {
@@ -37,7 +36,6 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// Short one-line description instead of dumping the whole DOMException
 function describeError(error: unknown): string {
   if (error instanceof Error) {
     return `${error.name}: ${error.message}`;
@@ -70,12 +68,9 @@ function isTimeout(error: unknown): boolean {
 
 function shouldRetry(error: unknown): boolean {
   if (error instanceof JikanHttpError) {
-    // Retry on rate limit and server errors, not on other 4xx
     return error.status === 429 || error.status >= 500;
   }
-  // A timeout means Jikan is slow, so retrying just doubles the wait
   if (isTimeout(error)) return false;
-  // Network errors, bad JSON
   return true;
 }
 
@@ -107,8 +102,6 @@ async function loadTopAnime(): Promise<JikanAnime[] | null> {
   }
 }
 
-// In-memory cache: concurrent calls share one request,
-// and a warm server instance answers instantly without calling Jikan.
 let memoryCache: { data: JikanAnime[]; expires: number } | null = null;
 let inFlight: Promise<JikanAnime[]> | null = null;
 
