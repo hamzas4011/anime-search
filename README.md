@@ -2,6 +2,8 @@
 
 A modern, accessible web app for discovering anime, built with **Next.js**, **TypeScript** and **Tailwind CSS**. Browse trending and popular anime, or let AI pick your next watch. 🎌📺
 
+[🔗 View the Website](https://anime-search-explore.vercel.app)
+
 ![AnimeExplorer home page](public/preview.png)
 
 ## 🎯 Features
@@ -18,7 +20,3 @@ A modern, accessible web app for discovering anime, built with **Next.js**, **Ty
 - **Jikan API** (unofficial MyAnimeList API) for anime lists
 - **Claude API** (Anthropic) for AI recommendations
 - **AniList API** for covers and MyAnimeList links in AI Picks
-
-## 🌐 Live Demo
-
-[🔗 View the Website](https://anime-search-explore.vercel.app)
