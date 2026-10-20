@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { askClaude, type ClaudeRecommendation } from '../../lib/claude';
 import { getAnimeDetails } from '../../lib/anilist';
 
-const MAX_QUESTION_LENGTH = 500;
+const MAX_QUESTION_LENGTH = 200;
 const MAX_RECOMMENDATIONS = 5;
 
 type Recommendation = ClaudeRecommendation & {
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Please type a question' }, { status: 400 });
   }
   if (question.length > MAX_QUESTION_LENGTH) {
-    return NextResponse.json({ error: `Questions can be at most ${MAX_QUESTION_LENGTH} characters` }, { status: 400 });
+    return NextResponse.json({ error: `Keep it short — max ${MAX_QUESTION_LENGTH} characters.` }, { status: 400 });
   }
 
   try {

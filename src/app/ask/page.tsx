@@ -71,7 +71,8 @@ export default function AskPage() {
             type="text"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            maxLength={500}
+            maxLength={200}
+            aria-describedby="question-hint"
             placeholder="e.g. dark fantasy with a strong main character"
             className="flex-grow bg-gray-800 border border-gray-700 rounded px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
@@ -83,6 +84,9 @@ export default function AskPage() {
             {loading ? "Thinking..." : "Ask"}
           </button>
         </form>
+        <p id="question-hint" className="text-xs text-gray-400 mt-2">
+          Up to 5 picks per question · max 200 characters
+        </p>
 
         <div aria-live="polite" className="mt-8">
           {error && (
