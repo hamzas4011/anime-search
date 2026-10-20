@@ -1,8 +1,33 @@
 import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
-import { askClaude } from '../../lib/claude';
+import { askClaude, type ClaudeRecommendation } from '../../lib/claude';
+import { getAnimeDetails } from '../../lib/anilist';
 
 const MAX_QUESTION_LENGTH = 500;
+const MAX_RECOMMENDATIONS = 5;
+
+type Recommendation = ClaudeRecommendation & {
+  image: string | null;
+  score: number | null;
+  episodes: number | null;
+  url: string | null;
+};
+
+async function addAnimeDetails(recommendations: ClaudeRecommendation[]): Promise<Recommendation[]> {
+  return Promise.all(
+    recommendations.slice(0, MAX_RECOMMENDATIONS).map(async (rec) => {
+      const details = await getAnimeDetails(rec.title);
+      return {
+        title: rec.title,
+        reason: rec.reason,
+        image: details?.image ?? null,
+        score: details?.score ?? null,
+        episodes: details?.episodes ?? null,
+        url: details?.url ?? null,
+      };
+    })
+  );
+}
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -16,8 +41,11 @@ export async function POST(request: Request) {
   }
 
   try {
-    const answer = await askClaude(question);
-    return NextResponse.json({ answer }, { status: 200 });
+    const { answer, recommendations } = await askClaude(question);
+    return NextResponse.json(
+      { answer, recommendations: await addAnimeDetails(recommendations) },
+      { status: 200 }
+    );
   } catch (error) {
     if (error instanceof Anthropic.AuthenticationError) {
       console.error('Claude API Error: invalid or missing ANTHROPIC_API_KEY');

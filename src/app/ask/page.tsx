@@ -1,15 +1,24 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 
-const EXAMPLES = [
-  "Recommend anime like Attack on Titan",
-  "A short, funny anime for a weekend",
-  "Best romance anime for beginners",
-];
+type Recommendation = {
+  title: string;
+  reason: string;
+  image: string | null;
+  score: number | null;
+  episodes: number | null;
+  url: string | null;
+};
+
+function malSearchUrl(title: string) {
+  return `https://myanimelist.net/anime.php?q=${encodeURIComponent(title)}`;
+}
 
 export default function AskPage() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,6 +27,7 @@ export default function AskPage() {
     setLoading(true);
     setError("");
     setAnswer("");
+    setRecommendations([]);
 
     try {
       const res = await fetch("/api/ask", {
@@ -28,6 +38,7 @@ export default function AskPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
       setAnswer(data.answer);
+      setRecommendations(Array.isArray(data.recommendations) ? data.recommendations : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -39,10 +50,10 @@ export default function AskPage() {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-3">
-          🤖 Ask AI
+          🤖 Find Your Next Anime
         </h1>
         <p className="text-center text-gray-400 mb-8">
-          Get anime recommendations or ask anything about anime.
+          Name an anime you like, a genre or a mood, and AI will find your next watch.
         </p>
 
         <form
@@ -53,7 +64,7 @@ export default function AskPage() {
           className="flex flex-col sm:flex-row gap-3"
         >
           <label htmlFor="question" className="sr-only">
-            Your question
+            What do you want to watch?
           </label>
           <input
             id="question"
@@ -61,7 +72,7 @@ export default function AskPage() {
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             maxLength={500}
-            placeholder="e.g. Anime like Demon Slayer?"
+            placeholder="e.g. dark fantasy with a strong main character"
             className="flex-grow bg-gray-800 border border-gray-700 rounded px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
@@ -73,23 +84,6 @@ export default function AskPage() {
           </button>
         </form>
 
-        <div className="flex flex-wrap gap-2 mt-4">
-          {EXAMPLES.map((example) => (
-            <button
-              key={example}
-              type="button"
-              onClick={() => {
-                setQuestion(example);
-                ask(example);
-              }}
-              disabled={loading}
-              className="text-xs bg-gray-800 border border-gray-700 hover:border-blue-400 rounded-full px-3 py-1 transition disabled:opacity-50"
-            >
-              {example}
-            </button>
-          ))}
-        </div>
-
         <div aria-live="polite" className="mt-8">
           {error && (
             <p role="alert" className="text-red-400 bg-gray-800 border border-red-900 rounded-xl p-4">
@@ -100,6 +94,68 @@ export default function AskPage() {
             <div className="bg-gray-800 border border-gray-700 rounded-xl p-5 whitespace-pre-wrap leading-relaxed text-gray-200">
               {answer}
             </div>
+          )}
+          {recommendations.length > 0 && (
+            <ul className="mt-4 space-y-4">
+              {recommendations.map((rec) => {
+                const link = rec.url ?? malSearchUrl(rec.title);
+                return (
+                <li
+                  key={rec.title}
+                  className="flex gap-4 bg-gray-800 border border-gray-700 rounded-xl p-4"
+                >
+                  {rec.image && (
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      tabIndex={-1}
+                      aria-hidden="true"
+                      className="self-start flex-shrink-0 rounded-md overflow-hidden hover:opacity-80 transition"
+                    >
+                      <Image
+                        src={rec.image}
+                        alt=""
+                        width={96}
+                        height={136}
+                        className="w-20 sm:w-24 h-auto object-cover"
+                      />
+                    </a>
+                  )}
+                  <div className="min-w-0">
+                    <h2 className="font-semibold text-white">
+                      <a
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-300 hover:underline rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      >
+                        {rec.title}
+                        <span className="sr-only"> (opens in a new tab)</span>
+                      </a>
+                    </h2>
+                    {Boolean(rec.score || rec.episodes) && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        {rec.score ? `⭐ ${rec.score}` : ""}
+                        {rec.score && rec.episodes ? " · " : ""}
+                        {rec.episodes ? `${rec.episodes} episodes` : ""}
+                      </p>
+                    )}
+                    <p className="text-sm text-gray-300 mt-2 leading-relaxed">{rec.reason}</p>
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-3 text-sm text-blue-400 hover:text-blue-300 underline rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                      {rec.url ? "View on MyAnimeList ↗" : "Search on MyAnimeList ↗"}
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </div>
+                </li>
+                );
+              })}
+            </ul>
           )}
         </div>
       </div>
