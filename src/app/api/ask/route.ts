@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { askClaude, type ClaudeRecommendation } from '../../lib/claude';
 import { getAnimeDetails } from '../../lib/anilist';
+import { getKitsuDetails } from '../../lib/kitsu';
+import { searchAnimeDetails } from '../../lib/jikan';
 
 const MAX_QUESTION_LENGTH = 200;
 const MAX_RECOMMENDATIONS = 5;
@@ -16,7 +18,10 @@ type Recommendation = ClaudeRecommendation & {
 async function addAnimeDetails(recommendations: ClaudeRecommendation[]): Promise<Recommendation[]> {
   return Promise.all(
     recommendations.slice(0, MAX_RECOMMENDATIONS).map(async (rec) => {
-      const details = await getAnimeDetails(rec.title);
+      const details =
+        (await getAnimeDetails(rec.title)) ??
+        (await getKitsuDetails(rec.title)) ??
+        (await searchAnimeDetails(rec.title));
       return {
         title: rec.title,
         reason: rec.reason,

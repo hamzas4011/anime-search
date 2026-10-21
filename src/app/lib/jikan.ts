@@ -1,5 +1,6 @@
 import "server-only"; 
 import fallbackAnime from "./fallback-anime.json";
+import type { AnimeDetails } from "./anilist";
 
 export type JikanAnime = {
   mal_id: number;
@@ -140,4 +141,83 @@ export async function getTopAnime(): Promise<JikanAnime[]> {
 
   void refresh();
   return fallbackAnime as JikanAnime[];
+}
+
+// Backup for the AI page when AniList is down.
+const JIKAN_SEARCH_URL = "https://api.jikan.moe/v4/anime";
+const SEARCH_TIMEOUT_MS = 4000;
+// Jikan allows about 3 requests per second, so searches run one at a time.
+const SEARCH_SPACING_MS = 400;
+const SEARCH_CACHE_LIMIT = 500;
+
+const searchCache = new Map<string, AnimeDetails | null>();
+let searchQueue: Promise<unknown> = Promise.resolve();
+let searchDownUntil = 0;
+
+async function searchOnce(title: string): Promise<AnimeDetails | null> {
+  const url = `${JIKAN_SEARCH_URL}?q=${encodeURIComponent(title)}&limit=1`;
+  const response = await fetch(url, { signal: AbortSignal.timeout(SEARCH_TIMEOUT_MS) });
+
+  if (!response.ok) {
+    throw new JikanHttpError(response.status);
+  }
+
+  const data = await response.json();
+  const anime = data?.data?.[0];
+  if (!anime) {
+    return null;
+  }
+
+  return {
+    image: anime.images?.jpg?.large_image_url ?? anime.images?.jpg?.image_url ?? null,
+    score: anime.score ?? null,
+    episodes: anime.episodes ?? null,
+    url: anime.url ?? null,
+  };
+}
+
+// Resolves to undefined when the search was skipped because Jikan is down.
+function queueSearch(title: string): Promise<AnimeDetails | null | undefined> {
+  const run = searchQueue.then(async () => {
+    // An earlier search in the queue failed; skip instead of waiting for another timeout.
+    if (Date.now() < searchDownUntil) {
+      return undefined;
+    }
+    try {
+      return await searchOnce(title);
+    } finally {
+      await sleep(SEARCH_SPACING_MS);
+    }
+  });
+  searchQueue = run.catch(() => undefined);
+  return run;
+}
+
+export async function searchAnimeDetails(title: string): Promise<AnimeDetails | null> {
+  const key = title.trim().toLowerCase();
+  if (searchCache.has(key)) {
+    return searchCache.get(key) ?? null;
+  }
+  if (Date.now() < searchDownUntil) {
+    return null;
+  }
+
+  try {
+    const result = await queueSearch(title);
+    if (result === undefined) {
+      return null;
+    }
+    if (searchCache.size >= SEARCH_CACHE_LIMIT) {
+      searchCache.delete(searchCache.keys().next().value!);
+    }
+    searchCache.set(key, result);
+    return result;
+  } catch (error) {
+    console.error(`Jikan search failed for "${title}" (${describeError(error)})`);
+    // A 429 only means we were too fast; don't treat Jikan as down for that.
+    if (!(error instanceof JikanHttpError && error.status === 429)) {
+      searchDownUntil = Date.now() + FAILURE_COOLDOWN_MS;
+    }
+    return null;
+  }
 }

@@ -53,7 +53,7 @@ const REFUSAL_ANSWER: ClaudeAnswer = {
 
 export async function askClaude(question: string): Promise<ClaudeAnswer> {
   const response = await claude.beta.messages.create({
-    model: 'claude-opus-5-5',
+    model: 'claude-sonnet-5-5',
     max_tokens: 4000,
     betas: ['server-side-fallback-2026-07-01'],
     fallbacks: 'default',
