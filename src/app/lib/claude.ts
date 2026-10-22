@@ -10,6 +10,9 @@ export type ClaudeRecommendation = {
 export type ClaudeAnswer = {
   answer: string;
   recommendations: ClaudeRecommendation[];
+  requestedCount: number;
+  minEpisodes: number | null;
+  maxEpisodes: number | null;
 };
 
 const SYSTEM_PROMPT =
@@ -21,6 +24,14 @@ const SYSTEM_PROMPT =
   'Give each title one sentence on why it fits. ' +
   'Use the official English title when the anime has one, otherwise the official romaji title. ' +
   '"answer" is a short intro of at most 1-2 sentences; do not repeat the titles there. ' +
+  'If the message is just an anime title, treat it as "anime similar to <title>": use "answer" for one sentence ' +
+  'about that anime, and do not include that title itself in "recommendations". ' +
+  'If the user sets an episode limit, put it in "minEpisodes"/"maxEpisodes" as inclusive numbers ' +
+  '(e.g. "less than 20 episodes" means maxEpisodes 19), and only recommend anime whose full episode count fits it; ' +
+  'otherwise set both to null. ' +
+  '"requestedCount" is how many picks the user wants (3 by default, at most 5). ' +
+  'When there is an episode limit, add up to 2 backup titles after those (5 titles at most in total), ' +
+  'because titles that turn out not to fit are removed; never mention backups in "answer". ' +
   'If the message is not a request for anime recommendations, leave "recommendations" empty and use "answer" ' +
   'for one short, friendly line suggesting they describe what kind of anime they want to watch.';
 
@@ -41,14 +52,20 @@ const ANSWER_SCHEMA = {
         additionalProperties: false,
       },
     },
+    requestedCount: { type: 'integer' },
+    minEpisodes: { anyOf: [{ type: 'integer' }, { type: 'null' }] },
+    maxEpisodes: { anyOf: [{ type: 'integer' }, { type: 'null' }] },
   },
-  required: ['answer', 'recommendations'],
+  required: ['answer', 'recommendations', 'requestedCount', 'minEpisodes', 'maxEpisodes'],
   additionalProperties: false,
 };
 
 const REFUSAL_ANSWER: ClaudeAnswer = {
   answer: "Sorry, I can't help with that one. Try asking about a different anime!",
   recommendations: [],
+  requestedCount: 0,
+  minEpisodes: null,
+  maxEpisodes: null,
 };
 
 export async function askClaude(question: string): Promise<ClaudeAnswer> {

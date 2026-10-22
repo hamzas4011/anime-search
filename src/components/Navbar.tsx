@@ -7,7 +7,7 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/popular", label: "Popular" },
   { href: "/editors", label: "Editors Pick" },
-  { href: "/ask", label: "AI Picks", icon: "🤖" },
+  { href: "/ask", label: "AI Picks", icon: "🤖", highlight: true },
 ];
 
 const Navbar = () => {
@@ -62,7 +62,13 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   aria-current={active ? "page" : undefined}
                   className={`block text-lg font-medium px-4 py-3 md:py-2 rounded transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
-                    active ? "text-blue-400" : "hover:text-gray-300 hover:bg-gray-800 md:hover:bg-transparent"
+                    link.highlight
+                      ? `md:rounded-full md:border md:border-purple-500/60 md:bg-purple-500/10 ${
+                          active ? "text-blue-400" : "text-purple-200 hover:bg-gray-800 md:hover:bg-purple-500/20"
+                        }`
+                      : active
+                        ? "text-blue-400"
+                        : "hover:text-gray-300 hover:bg-gray-800 md:hover:bg-transparent"
                   }`}
                 >
                   {link.icon && <span aria-hidden="true">{link.icon} </span>}

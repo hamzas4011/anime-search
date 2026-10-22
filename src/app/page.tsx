@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Form from "next/form";
+import { AI_EXAMPLES, askUrl } from "./lib/ai-examples";
 
 interface Anime {
   id: number;
@@ -39,8 +41,43 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center text-center min-h-[20vh] px-6 pt-6 pb-2">
         <h1 className="text-4xl md:text-5xl font-bold">AnimeExplorer</h1>
         <p className="mt-2 text-lg text-gray-400">
-          Discover, explore, and check out the most popular anime.
+          Discover popular anime, or let AI pick your next watch.
         </p>
+
+        <label htmlFor="home-ai-question" className="mt-6 text-base text-gray-300">
+          Not sure what to watch? Describe it and AI will pick for you.
+        </label>
+        <Form action="/ask" className="mt-3 w-full max-w-xl flex flex-col sm:flex-row gap-2">
+          <input
+            id="home-ai-question"
+            name="q"
+            type="text"
+            required
+            maxLength={200}
+            enterKeyHint="send"
+            placeholder="🤖 e.g. Please suggest some sad anime"
+            className="flex-1 min-w-0 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-base text-white placeholder-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          />
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-base font-semibold py-3 px-6 rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          >
+            Ask AI
+          </button>
+        </Form>
+
+        <ul aria-label="Example questions" className="mt-3 flex flex-wrap justify-center gap-2">
+          {AI_EXAMPLES.map((example) => (
+            <li key={example}>
+              <Link
+                href={askUrl(example)}
+                className="inline-flex items-center min-h-11 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-full px-4 py-2 text-sm text-gray-200 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              >
+                {example}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="px-4 md:px-12 pt-4 pb-8">

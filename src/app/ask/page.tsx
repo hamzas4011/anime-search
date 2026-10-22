@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { AI_EXAMPLES } from "../lib/ai-examples";
 
 type Recommendation = {
   title: string;
@@ -11,18 +12,19 @@ type Recommendation = {
   url: string | null;
 };
 
-const EXAMPLES = [
-  "Something like Attack on Titan",
-  "Short anime under 13 episodes",
-  "Funny anime",
-];
-
 function malSearchUrl(title: string) {
   return `https://myanimelist.net/anime.php?q=${encodeURIComponent(title)}`;
 }
 
-export default function AskPage() {
-  const [question, setQuestion] = useState("");
+export default function AskPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  // A question passed from the home page (/ask?q=...)
+  const { q } = use(searchParams);
+  const initialQuestion = typeof q === "string" ? q.slice(0, 200) : "";
+  const [question, setQuestion] = useState(initialQuestion);
   const [answer, setAnswer] = useState("");
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [error, setError] = useState("");
@@ -51,6 +53,14 @@ export default function AskPage() {
       setLoading(false);
     }
   }
+
+  // Run the question from the URL once on load
+  const askedFromUrl = useRef(false);
+  useEffect(() => {
+    if (askedFromUrl.current) return;
+    askedFromUrl.current = true;
+    ask(initialQuestion);
+  });
 
   return (
     <div className="bg-gray-900 text-white p-4 sm:p-6">
@@ -107,7 +117,7 @@ export default function AskPage() {
               Not sure what to ask? Try one:
             </h2>
             <ul className="flex flex-wrap gap-2">
-              {EXAMPLES.map((example) => (
+              {AI_EXAMPLES.map((example) => (
                 <li key={example}>
                   <button
                     type="button"
